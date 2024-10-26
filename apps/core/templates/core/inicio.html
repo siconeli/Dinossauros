@@ -1,0 +1,95 @@
+{% load static %} <!--Carregar arquivos estáticos (imagens)-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% block titulo %}
+      <title>Dinossauros</title>
+    {% endblock %}
+    
+    {% block css %}
+      <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+    {% endblock %}
+
+    {% block htmx %}
+    {% endblock %}
+
+    <!-- Arquivo Favicon -->
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon-aeg.ico' %}"> -->
+  </head>
+
+  <body>
+    {% block conteudo %}   
+      <main>
+        <nav class="barra-menu">
+          <div class="container">
+            <div class="logo">
+              <img src="{% static 'img/logo-dinossauros.png' %}">
+            </div>
+            <div class="menu">
+              <div class="links-menu">
+                <a href="{% url 'inicio' %}"><img src="{% static 'img/home-icon.png' %}" alt=""></a>
+              </div>
+              <div class="links-menu">
+                <form method="post" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <input type="image" src="{% static 'img/exit-icon.png' %}">
+                </form>
+              </div>
+              <div class="links-menu"></div>
+            </div>
+          </div>
+        </div>
+        </nav>
+        <section class="corpo">
+          <div class="conteudo">
+            <h3>Alunos Cadastrados</h3>
+            <div class="filtro">
+              <a href="{% url 'cadastro_wizard' %}"><button>Novo Aluno</button></a>
+              <a href="{% url 'inicio' %}"><button class="btn-limpar">OK</button></a>
+              <form method="get">
+                <input type="text" name="nome_filtro" placeholder="Pesquisar aluno por nome">
+                <button class="btn-filtrar" type="submit">OK</button>
+              </form>
+            </div>
+            <div class="tabela-container">
+              <table id="alunos">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Nome</th>      
+                    <th>Detalhes</th>             
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for aluno in alunos %}
+                    <tr>
+                      <td>{{ aluno.ativo }}</td>
+                      <td class="td-aluno-nome">{{ aluno.nome}}</td>
+                      <td>
+                        <a href="{% url 'aluno-detail' aluno.pk %}">Detalhes</a>
+                      </td>
+                    </tr>
+                  {% endfor %}  
+                </tbody>
+              </table>
+            </div>
+            <div id="paginationControls">
+              <h1>total</h1>
+            </div>
+          </div>
+        </section>
+        <div class="barra"></div>
+        <div class="footer"><p>Portal de cadastros Dinossauros | Versão 1.0.0.0</p></div>
+      </main>
+    {% endblock %}
+  </body>
+
+  {% block scripts %}
+    <script src="{% static 'js/inicio.js' %}"></script>
+  {% endblock %}
+</html>

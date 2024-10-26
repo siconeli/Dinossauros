@@ -1,0 +1,54 @@
+<h1>Create Contrato</h1>
+
+{% block conteudo %}
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ wizard.management_form }}
+
+        <label for="{{ wizard.form.valor.id_for_label }}">Valor</label>
+        {{ wizard.form.valor }}
+
+        <label for="{{ wizard.form.periodo.id_for_label }}">Período</label>
+        {{ wizard.form.periodo }}
+
+        <label for="{{ wizard.form.data_inicio.id_for_label }}">Início</label>
+        {{ wizard.form.data_inicio }}
+
+        <label for="{{ wizard.form.data_fim.id_for_label }}">Fim</label>
+        {{ wizard.form.data_fim }}
+
+        {% if wizard.steps.prev %}
+            <button type="submit" name="wizard_goto_step" value="{{ wizard.steps.prev }}">Retornar</button>
+        {% endif %}
+
+        <button type="submit">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <!-- Importação para uso de mask -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <!-- Importação para uso de maskMoney -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Aplicar máscara no campo de valor
+            $('#valor').maskMoney({
+                prefix: 'R$ ', // Prefixo do valor
+                allowNegative: false, // Permite valores negativos ou não
+                thousands: '.', // Separador de milhares
+                decimal: ',', // Separador decimal
+                precision: 2, // Precisão (número de casas decimais)
+                affixesStay: true // Símbolos prefixo/sufixo permanecem mesmo depois de editar o campo
+            });
+        });
+
+        $('form').on('submit', function() {
+            var valor = $('#valor').maskMoney('unmasked')[0];
+            $('#valor').val(valor);
+        });
+    </script>
+{% endblock %}

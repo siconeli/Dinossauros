@@ -1,0 +1,40 @@
+<h1>Create Aluno</h1>
+
+{% block conteudo %}
+    <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ wizard.management_form }}
+
+        {{ wizard.form.cpf.errors }}
+        
+        <label for="{{ wizard.form.nome.pk_for_label }}">Nome</label>
+        {{ wizard.form.nome}}
+
+        <label for="{{ wizard.form.cpf.pk_for_label}}">CPF</label>
+        {{ wizard.form.cpf }}
+
+        <label for="{{ wizar.form.idade.pk_for_label }}">idade</label>
+        {{ wizard.form.idade }}
+
+        <button type="submit">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
+    </form>
+
+    <a href="{% url 'inicio' %}"><button type="button">Cancelar</button></a>
+{% endblock %}
+
+{% block scripts %}
+    <!-- Importação para uso de mask -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#cpf').mask('000.000.000-00', {reverse: true}); // Máscara de CPF
+        });
+
+        $('form').on('submit', function() {
+            // Remove a máscara de CPF ou CNPJ
+            $("#cpf").unmask();
+        });
+    </script>
+{% endblock %}

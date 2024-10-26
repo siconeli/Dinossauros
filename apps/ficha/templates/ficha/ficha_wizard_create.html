@@ -1,0 +1,38 @@
+<h1>Create Ficha</h1>
+
+{% block conteudo %}
+    <form  method="post" novalidate>
+        {% csrf_token %}
+        {{ wizard.management_form }}
+
+        <label for="{{ wizard.form.cuidado_especial.id_for_label }}">Necessita de algum cuidado especial?</label>
+        {{ wizard.form.cuidado_especial }}
+
+        <label for="{{ wizard.form.alergico.id_for_label }}">Alergico?</label>
+        {{ wizard.form.alergico }}
+
+        <label for="{{ wizard.form.intolerante.id_for_label }}">Intolerante a algum alimento?</label>
+        {{ wizard.form.intolerante }}
+
+        <label for="{{ wizard.form.quedas.id_for_label }}">Já sofreu quedas?</label>
+        {{ wizard.form.quedas }}
+
+        <label for="{{ wizard.form.refluxo.id_for_label }}">Tem refluxo?</label>
+        {{ wizard.form.refluxo }}
+
+        <label for="{{ wizard.form.convulsoes.id_for_label }}">Convulsões?</label>
+        {{ wizard.form.convulsoes }}
+
+        <label for="{{ wizard.form.remedio_continuo.id_for_label }}">Toma algum remédio de uso contínuo?</label>
+        {{ wizard.form.remedio_continuo }}
+
+        <label for="{{ wizard.form.obs.id_for_label }}">Observações</label>
+        {{ wizard.form.obs }}
+
+        {% if wizard.steps.prev %}
+            <button type="submit" name="wizard_goto_step" value="{{ wizard.steps.prev }}">Retornar</button>
+        {% endif %}
+
+        <button type="submit">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
+    </form>
+{% endblock %}

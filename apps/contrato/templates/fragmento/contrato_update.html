@@ -1,0 +1,75 @@
+{% load static %}
+
+{% block conteudo %}
+    <section>
+        <h1>Contrato</h1>
+        <form id="contrato-update-form" hx-post="{% url 'contrato-update' contrato.pk %}" hx-target="#contrato-form" hx-swap="innerHTML" onsubmit="return removerMaskMoney('valor');">
+            {% csrf_token %}
+
+            <div>
+                {% for field in form %}
+                    {% if field.errors %}
+                        {{ field.errors|join:", " }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <label for="valor">Valor</label> 
+            <input type="text" id="valor" name="valor" class="input-update-contrato" maxlength="17" disabled value="{{ contrato.valor }}" required>
+
+            <label for="periodo">Período</label>
+            <select name="periodo" id="periodo" class="input-update-contrato" disabled>
+                {% for value, display in contrato.periodo_choices %}
+                    <option value="{{ value }}" {% if value == contrato.periodo %}selected{% endif %}>
+                        {{ display }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="data_inicio">Início</label>
+            <input type="date" id="data_inicio" name="data_inicio" class="input-update-contrato" disabled value="{{ contrato.data_inicio|date:'Y-m-d' }}" required>
+
+            <label for="data_fim">Fim</label>
+            <input type="date" id="data_fim" name="data_fim" class="input-update-contrato" disabled value="{{ contrato.data_fim|date:'Y-m-d' }}" required>
+
+            <button type="button" onclick="removeDisabled('input-update-contrato', 'salvar_contrato')">Editar</button>
+            <button type="submit" id="salvar_contrato" style="display: none;">Salvar</button>
+        </form>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <!-- Importação para uso de mask -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <!-- Importação para uso de maskMoney -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Aplicar máscara no campo de valor
+            $('#valor').maskMoney({
+                prefix: 'R$ ', // Prefixo do valor
+                allowNegative: false, // Permite valores negativos ou não
+                thousands: '.', // Separador de milhares
+                decimal: ',', // Separador decimal
+                precision: 2, // Precisão (número de casas decimais)
+                affixesStay: true // Símbolos prefixo/sufixo permanecem mesmo depois de editar o campo
+            });
+        });
+
+        function removeDisabled(className, id) {
+            // Seleciona todos os elementos com a classe especificada e remove o atributo 'disabled'
+            $('.' + className).removeAttr('disabled');
+
+            // Seleciona o elemento com o id especificado e altera o estilo de exibição
+            $('#' + id).css('display', 'inline');
+        }
+
+        $('form').on('submit', function() {
+            var valor = $('#valor').maskMoney('unmasked')[0];
+            $('#valor').val(valor);
+        });
+    </script>
+{% endblock %}

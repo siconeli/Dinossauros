@@ -1,0 +1,15 @@
+<table id="documento">
+    <thead>
+        <tr>
+            <th>Nome Arquivo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for documento in documentos %}
+            <tr>
+                <td><a href="{{ documento.arquivo.url }}" target="_blank" rel="noopener noreferrer">{{ documento.arquivo.name }}</a></td>
+            </tr>
+
+        {% endfor %}
+    </tbody>
+</table>

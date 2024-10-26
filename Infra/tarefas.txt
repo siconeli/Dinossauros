@@ -1,0 +1,18 @@
+* LINKS E DOCS *
+-> formulários em sequência com formTools -> https://chatgpt.com/share/6713a669-77d0-800d-9013-36cef87428a2
+
+
+* FRONT-END *
+html (image) ->  <label for="foto">Foto</label> <input type="file" name="foto" id="foto" accept="image/*">
+-> Na lista de alunos, aumentar o tamanho das linhas da tabela, para parecer um card
+-> Para cadastrar responsável no alunoDetail, pensar em colocar um Modal com html e css
+
+
+* BACK-END *
+-> Adicionar campo de upload de arquivos, documento ManytoOne, igual do procesControl
+-> Adicionar campo de imagem do usuário
+-> Depois criar um template para todos os dados do aluno, como se fosse uma carteirinha, para após finalizar o cadastro da ficha de amenese, direcionar para ele e no futuro imprimir como se fosse uma carteirinha.
+
+
+* ANOTAÇÕES RÁPIDAS *
+-> Criar um button na lista de alunos para cada aluno, que direciona para uma view que tem todos os dados de aluno, contrato, responsáveis e ficha, deixando os dados centralizados.
