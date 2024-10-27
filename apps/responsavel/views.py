@@ -16,7 +16,7 @@ class ResponsavelCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         try:
-            responsavel = get_object_or_404(self.model, pk=self.kwargs.get('pk'))
+            # responsavel = get_object_or_404(self.model, pk=self.kwargs.get('pk'))
             form.instance.usuario_criador = self.request.user
             form.instance.aluno = Aluno.objects.get(pk=self.kwargs.get('pk'))
             form.instance.autorizado = True
@@ -24,7 +24,7 @@ class ResponsavelCreate(LoginRequiredMixin, CreateView):
 
         except Exception as e:
             print(e)
-            return render(self.request, 'responsavel/responsavel_create.html', {'form':form, 'responsavel': responsavel})
+            return render(self.request, 'responsavel/responsavel_create.html', {'form':form})
 
     def cancelar(self, aluno_pk):
         try:
