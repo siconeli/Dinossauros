@@ -8,8 +8,69 @@
         {% for documento in documentos %}
             <tr>
                 <td><a href="{{ documento.arquivo.url }}" target="_blank" rel="noopener noreferrer">{{ documento.arquivo.name }}</a></td>
+                <td>
+                    <button class="openModal">Excluir</button>
+                
+                    <!-- Modal -->
+                    <div class="modalDelete modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <header>
+                                <h2>Exclusão de Documento</h2>
+                            </header>
+                            <p>Tem certeza que deseja excluir o arquivo?</p>
+                            <button type="button" class="btn-excluir">Excluir</button>
+                        </div>
+                    </div>
+                    <form class="formDelete" method="post" action="{% url 'delete-documento' documento.pk  %}">
+                        {% csrf_token %}
+                    </form>
+                </td>
             </tr>
 
         {% endfor %}
     </tbody>
 </table>
+
+{% block script %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function attachModalEvents() {
+                // Seleciona todos os botões de abrir modal, botões de fechar modal, botões de excluir e formulários
+                const openModalButtons = document.querySelectorAll(".openModal");
+                const modals = document.querySelectorAll(".modalDelete");
+                const closeModalButtons = document.querySelectorAll(".close");
+                const deleteButtons = document.querySelectorAll(".btn-excluir");
+                const forms = document.querySelectorAll(".formDelete");
+
+                // Adiciona o evento de clique para abrir o modal correspondente
+                openModalButtons.forEach((button, index) => {
+                    button.onclick = function() {
+                        modals[index].style.display = "block";
+                    };
+                });
+
+                // Adiciona o evento de clique para fechar o modal correspondente
+                closeModalButtons.forEach((button, index) => {
+                    button.onclick = function() {
+                        modals[index].style.display = "none";
+                    };
+                });
+
+                // Adiciona o evento de clique para submeter o formulário de exclusão correspondente
+                deleteButtons.forEach((button, index) => {
+                    button.onclick = function() {
+                        forms[index].submit();
+                    };
+                });
+            }
+                // Inicializa os eventos no carregamento da página
+                attachModalEvents();
+
+                // Reanexa os eventos após HTMX atualizar o DOM
+                document.body.addEventListener('htmx:afterSwap', function () {
+                    attachModalEvents();
+                });
+            });
+    </script>
+{% endblock %}
