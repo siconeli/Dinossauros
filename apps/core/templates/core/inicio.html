@@ -73,6 +73,29 @@
                       <td>
                         <a href="{% url 'aluno-detail' aluno.pk %}">Detalhes</a>
                       </td>
+                      <td>
+                        <button id="openModal">Excluir</button>
+
+                        <!-- Modal -->
+                        <div id="modalDelete" class="modal">
+                          <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <header>
+                              <h2>Exclusão de Aluno</h2>
+                            </header>
+                            <p>Tem certeza que deseja excluir o cadastro do aluno?</p>
+                            <button type="button" id="btn-excluir">Excluir</button>
+                          </div>
+                        </div>
+
+                        
+
+                        <form id="formDelete" method="post" action="{% url 'aluno-delete' aluno.pk  %}">
+                          {% csrf_token %}
+                          <!-- <button type="submit"></button> -->
+                        </form>
+
+                      </td>
                     </tr>
                   {% endfor %}  
                 </tbody>
@@ -88,8 +111,8 @@
       </main>
     {% endblock %}
   </body>
+</html>
 
   {% block scripts %}
     <script src="{% static 'js/inicio.js' %}"></script>
   {% endblock %}
-</html>

@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views import View
 from .models import Aluno
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.contrato.models import Contrato
 from apps.ficha.models import Ficha
@@ -57,3 +57,12 @@ class AlunoUpdate(LoginRequiredMixin, View):
         except Exception as e:
             print(f'AlunoUpdate -> {e}')
             return render(request, 'fragmento/aluno_update.html', {'form': form, 'object': aluno})
+
+class AlunoDelete(LoginRequiredMixin, DeleteView):
+    model = Aluno
+
+    def get_success_url(self):
+        try:
+            return reverse('inicio')
+        except Exception as e:
+            print(e)
