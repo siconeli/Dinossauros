@@ -17,34 +17,33 @@
 
     {% block htmx %}
     {% endblock %}
-
-    <!-- Arquivo Favicon -->
-    <!-- <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon-aeg.ico' %}"> -->
   </head>
-
+  
   <body>
-    {% block conteudo %}   
-      <main>
-        <nav class="barra-menu">
-          <div class="container">
-            <div class="logo">
-              <img src="{% static 'img/logo-dinossauros.png' %}">
+    {% block menu %}
+      <nav class="barra-menu">
+        <div class="container">
+          <div class="logo">
+            <img src="{% static 'img/logo-dinossauros.png' %}">
+          </div>
+          <div class="menu">
+            <div class="links-menu">
+              <a href="{% url 'inicio' %}"><img src="{% static 'img/home-icon.png' %}" alt=""></a>
             </div>
-            <div class="menu">
-              <div class="links-menu">
-                <a href="{% url 'inicio' %}"><img src="{% static 'img/home-icon.png' %}" alt=""></a>
-              </div>
-              <div class="links-menu">
-                <form method="post" action="{% url 'logout' %}">
-                  {% csrf_token %}
-                  <input type="image" src="{% static 'img/exit-icon.png' %}">
-                </form>
-              </div>
-              <div class="links-menu"></div>
+            <div class="links-menu">
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <input type="image" src="{% static 'img/exit-icon.png' %}">
+              </form>
             </div>
+            <div class="links-menu"></div>
           </div>
         </div>
-        </nav>
+      </nav>
+    {% endblock %}
+
+    {% block conteudo %}   
+      <main>
         <section class="corpo">
           <div class="conteudo">
             <h3>Alunos Cadastrados</h3>
