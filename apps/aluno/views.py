@@ -47,16 +47,16 @@ class AlunoUpdate(LoginRequiredMixin, View):
 
             if form.is_valid():
                 if Aluno.objects.filter(cpf=form.cleaned_data['cpf']).exclude(id=pk).exists():
-                    return render(request, 'fragmento/aluno_update.html', {'form': form, 'object': aluno})
+                    return render(request, 'fragmento/aluno_update.html', {'form': form, 'aluno': aluno})
 
                 form.save()
-                return render(request, 'fragmento/aluno_update.html', {'object': aluno})
+                return render(request, 'fragmento/aluno_update.html', {'aluno': aluno})
 
-            return render(request, 'fragmento/aluno_update.html', {'form': form, 'object': aluno})
+            return render(request, 'fragmento/aluno_update.html', {'form': form, 'aluno': aluno})
         
         except Exception as e:
             print(f'AlunoUpdate -> {e}')
-            return render(request, 'fragmento/aluno_update.html', {'form': form, 'object': aluno})
+            return render(request, 'fragmento/aluno_update.html', {'form': form, 'aluno': aluno})
 
 class AlunoDelete(LoginRequiredMixin, DeleteView):
     model = Aluno

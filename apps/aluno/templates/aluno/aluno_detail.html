@@ -1,12 +1,15 @@
 {% load static %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/aluno.css' %}">
+{% endblock %}
 
 {% block htmx %}
     <script src="{% static 'js/htmx.min.js' %}"></script>
 {% endblock %}
 
 <section id="aluno-form">
-    {% include 'fragmento/aluno_update.html' with object=aluno %}
+    {% include 'fragmento/aluno_update.html' with aluno=aluno %}
 </section>
 
 <section id="contrato-form">
@@ -19,7 +22,6 @@
 
 <section>
     <h1>Responsáveis</h1>
-
     <a href="{% url 'resp-create' object.pk %}"><button>Novo Responsável</button></a>
 
     <table id="responsavel">
@@ -31,20 +33,39 @@
                 <th>Endereço</th>       
                 <th>Profissão</th>                      
                 <th>Sexo</th>                      
-                <th>Parentesco</th>             
+                <th>Parentesco</th>  
+                <th></th>           
             </tr>
         </thead>
         <tbody>
             {% for resp in responsaveis %}
-            <tr>
-                <td>{{ resp.nome}}</td>
-                <td>{{ resp.cpf }}</td>
-                <td>{{ resp.telefone }}</td>
-                <td>{{ resp.endereco }}</td>
-                <td>{{ resp.profissao }}</td>
-                <td>{{ resp.sexo }}</td>
-                <td>{{ resp.parentesco }}</td>
-            </tr>
+                <tr>
+                    <td>{{ resp.nome}}</td>
+                    <td>{{ resp.cpf }}</td>
+                    <td>{{ resp.telefone }}</td>
+                    <td>{{ resp.endereco }}</td>
+                    <td>{{ resp.profissao }}</td>
+                    <td>{{ resp.sexo }}</td>
+                    <td>{{ resp.parentesco }}</td>
+                    <td>
+                        <button class="openModal">Excluir</button>
+                    
+                        <!-- Modal -->
+                        <div class="modalDelete modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <header>
+                                    <h2>Exclusão de Responsável</h2>
+                                </header>
+                                <p>Tem certeza que deseja excluir o cadastro do aluno?</p>
+                                <button type="button" class="btn-excluir">Excluir</button>
+                            </div>
+                        </div>
+                        <form class="formDelete" method="post" action="{% url 'resp-delete' resp.pk  %}">
+                            {% csrf_token %}
+                        </form>
+                    </td>
+                </tr>
             {% endfor %}  
         </tbody>
     </table>
@@ -68,3 +89,7 @@
     </div>
 
 </section> 
+
+{% block scripts %}
+    <script src="{% static 'js/aluno.js' %}"></script>
+{% endblock %}

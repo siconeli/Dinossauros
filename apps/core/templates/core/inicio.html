@@ -87,14 +87,9 @@
                             <button type="button" id="btn-excluir">Excluir</button>
                           </div>
                         </div>
-
-                        
-
                         <form id="formDelete" method="post" action="{% url 'aluno-delete' aluno.pk  %}">
                           {% csrf_token %}
-                          <!-- <button type="submit"></button> -->
                         </form>
-
                       </td>
                     </tr>
                   {% endfor %}  

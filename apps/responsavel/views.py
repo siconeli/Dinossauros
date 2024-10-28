@@ -2,9 +2,12 @@ from typing import Any
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
+
+from apps import responsavel
+
 from .models import Aluno
 from apps.formWizard.forms import ResponsavelForm
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from .models import Responsavel
@@ -16,7 +19,6 @@ class ResponsavelCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         try:
-            # responsavel = get_object_or_404(self.model, pk=self.kwargs.get('pk'))
             form.instance.usuario_criador = self.request.user
             form.instance.aluno = Aluno.objects.get(pk=self.kwargs.get('pk'))
             form.instance.autorizado = True
@@ -43,5 +45,15 @@ class ResponsavelCreate(LoginRequiredMixin, CreateView):
     def get_success_url(self) -> str:
         try:
             return reverse('aluno-detail', args=[self.kwargs.get('pk')])
+        except Exception as e:
+            print(e)
+
+class ResponsavelDelete(LoginRequiredMixin, DeleteView):
+    model = Responsavel
+
+    def get_success_url(self) -> str:
+        try:
+            responsavel = self.model.objects.get(id=self.kwargs.get('pk'))
+            return reverse('aluno-detail', args=[responsavel.aluno_id])
         except Exception as e:
             print(e)
