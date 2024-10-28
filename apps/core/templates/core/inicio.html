@@ -49,12 +49,18 @@
           <div class="conteudo">
             <h3>Alunos Cadastrados</h3>
             <div class="filtro">
-              <a href="{% url 'cadastro_wizard' %}"><button>Novo Aluno</button></a>
-              <a href="{% url 'inicio' %}"><button class="btn-limpar">OK</button></a>
-              <form method="get">
-                <input type="text" name="nome_filtro" placeholder="Pesquisar aluno por nome">
-                <button class="btn-filtrar" type="submit">OK</button>
-              </form>
+              <div class="cadastro">
+                <a href="{% url 'cadastro_wizard' %}"><button>Novo Aluno</button></a>
+              </div>
+              <div class="recarregar">
+                <a href="{% url 'inicio' %}"><button>Refresh</button></a>
+              </div>
+              <div class="enviarForm">
+                <form method="get">
+                  <input type="text" name="nome_filtro" placeholder="Pesquisar aluno por nome">
+                  <button class="btn-filtrar" type="submit">Buscar</button>
+                </form>      
+              </div>
             </div>
             <div class="tabela-container">
               <table id="alunos">
@@ -62,7 +68,8 @@
                   <tr>
                     <th>Status</th>
                     <th>Nome</th>      
-                    <th>Detalhes</th>             
+                    <th>Detalhes</th>   
+                    <th></th>          
                   </tr>
                 </thead>
                 <tbody>

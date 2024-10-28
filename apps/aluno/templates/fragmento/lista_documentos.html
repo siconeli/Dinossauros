@@ -1,3 +1,5 @@
+{% load static %}
+
 <table id="documento">
     <thead>
         <tr>
@@ -9,7 +11,7 @@
         {% for documento in documentos %}
             <tr>
                 <td>{{ documento.nome }}</td>
-                <td><a href="{{ documento.arquivo.url }}" target="_blank" rel="noopener noreferrer">{{ documento.arquivo.name }}</a></td>
+                <td><a href="{{ documento.arquivo.url }}" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/download.png' %}" alt=""></a></td>
                 <td>
                     <button class="openModal">Excluir</button>
                 
