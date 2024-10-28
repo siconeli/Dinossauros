@@ -28,13 +28,17 @@ class AlunoDetail(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         try:
             context = super().get_context_data(**kwargs)
-
             aluno_pk_uri = self.kwargs.get('pk')
+
+            documentos = Documento.objects.filter(aluno_id=aluno_pk_uri)
+            for doc in documentos:
+                doc.nome = str(doc.arquivo)[11:]
+
             context['contrato'] = get_object_or_404(Contrato, aluno_id=aluno_pk_uri)
             context['ficha'] = get_object_or_404(Ficha, aluno_id=aluno_pk_uri)
             context['responsaveis'] = Responsavel.objects.filter(aluno_id=aluno_pk_uri)
             context['aluno_pk'] = aluno_pk_uri
-            context['documentos'] = Documento.objects.filter(aluno_id=aluno_pk_uri)
+            context['documentos'] = documentos
             return context
         except Exception as e:
             print(f'get_context_data - AlunoDetail -> {e}')

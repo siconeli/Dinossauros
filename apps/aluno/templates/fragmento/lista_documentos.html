@@ -1,12 +1,14 @@
 <table id="documento">
     <thead>
         <tr>
-            <th>Nome Arquivo</th>
+            <th>Nome</th>
+            <th>Download</th>
         </tr>
     </thead>
     <tbody>
         {% for documento in documentos %}
             <tr>
+                <td>{{ documento.nome }}</td>
                 <td><a href="{{ documento.arquivo.url }}" target="_blank" rel="noopener noreferrer">{{ documento.arquivo.name }}</a></td>
                 <td>
                     <button class="openModal">Excluir</button>
@@ -18,7 +20,7 @@
                             <header>
                                 <h2>Exclusão de Documento</h2>
                             </header>
-                            <p>Tem certeza que deseja excluir o arquivo?</p>
+                            <p>Tem certeza que deseja excluir o Documento?</p>
                             <button type="button" class="btn-excluir">Excluir</button>
                         </div>
                     </div>
@@ -27,7 +29,6 @@
                     </form>
                 </td>
             </tr>
-
         {% endfor %}
     </tbody>
 </table>
