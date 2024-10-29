@@ -8,6 +8,7 @@ html, body {
 .navbar-top {
     height: 50px;
     z-index: 1020; /* Mantém a navbar superior sobre o conteúdo */
+    border-bottom: 1px solid #ccc;
 }
 
 /* Sidebar fixa */
@@ -16,6 +17,7 @@ html, body {
     bottom: 0;
     height: calc(100vh - 50px); /* Altura total menos a navbar superior */
     z-index: 1010;
+    border-right: 1px solid #ccc;
 }
 
 /* Área de conteúdo principal com rolagem */
