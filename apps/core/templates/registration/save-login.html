@@ -1,0 +1,40 @@
+{% load static %}
+
+{% block titulo %}
+    <title>Entrar</title>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+    <main>
+        <section class="login-section">
+            <div class="image-container-logo">
+                <img src="{% static 'img/logo-dinossauros.png' %}" >
+            </div>
+            <h1>Escola Dinossauros</h1>
+            <form action="" method="post">
+                <div class="login-form">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="fail-login-alert" id="alert">
+                            <span>Usuário ou Senha incorreto</span>
+                        </div>
+                    {% endif %}
+                    <input type="username" id="username" name="username" placeholder="Digitar usuário..." required>
+                    <input type="password" id="password" name="password" placeholder="Digitar senha..." required>
+                </div>
+                <button type="submit">Entrar</button>
+            </form>
+        </section>
+        <section class="banner-section">
+            <img src="{% static 'img/banner-dinossauros.svg' %}"/>
+        </section>
+    </main>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/login.js' %}"></script>
+{% endblock %}

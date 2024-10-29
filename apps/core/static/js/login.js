@@ -1,6 +1,5 @@
 function tornarInvisivel() {
-    const campo = document.getElementById('alert');
-    campo.style.display = 'none'; // Torna o campo invisível
+    $('#error').hide();
 }
 
 setTimeout(tornarInvisivel, 3000);

@@ -1,0 +1,122 @@
+{% load static %}
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+{% block titulo %}
+    <title>Entrar</title>
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block conteudo %}
+     <!-- Navbar Superior Fixa -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top navbar-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Logo</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTop" aria-controls="navbarTop" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTop">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Sobre</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contato</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar Lateral Fixa -->
+  <nav id="sidebar" class="col-md-2 col-lg-2 d-md-block bg-light sidebar border-end position-fixed">
+    <div class="position-sticky pt-3">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">
+            Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Perfil
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Configurações
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Ajuda
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Área Principal de Conteúdo com rolagem -->
+  <main class="col-md-10 ms-sm-auto col-lg-10">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Painel Principal</h1>
+    </div>
+    <p>Bem-vindo ao painel principal. Aqui é onde o conteúdo da página será exibido.</p>
+    <p>Adicione aqui mais conteúdo para ver a rolagem funcionando...</p>
+    <p>Lorem ipsum dolor sit amet...</p>
+    <!-- Adicione mais conteúdo para testar a rolagem -->
+  </main>
+
+
+
+
+
+
+{% endblock %}
+
+ <!-- Jquery Js-->
+ <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script> <!--Importação Jquery sempre antes do Bootstrap-->
+ <!-- Bootstrap Js -->
+ <script src="{% static 'js/bootstrap.min.js' %}"></script>
+ <script src="{% static 'js/popper.min.js' %}"></script>
+
+{% block scripts %}
+!-- Estilos personalizados para ajustar layout fixo -->
+    <style>
+    /* Estilos globais */
+    html, body {
+        height: 100%;
+        overflow: hidden; /* Impede o scroll da página */
+    }
+
+    /* Navbar superior fixa */
+    .navbar-top {
+        height: 50px;
+        z-index: 1020; /* Mantém a navbar superior sobre o conteúdo */
+    }
+
+    /* Sidebar fixa */
+    #sidebar {
+        top: 50px; /* Compensa a altura da navbar superior */
+        bottom: 0;
+        height: calc(100vh - 50px); /* Altura total menos a navbar superior */
+        z-index: 1010;
+    }
+
+    /* Área de conteúdo principal com rolagem */
+    main {
+        margin-top: 50px; /* Compensa a altura da navbar superior */
+        margin-left: 17%; /* Compensa a largura da sidebar */
+        height: calc(100vh - 50px); /* Altura total menos a navbar superior */
+        overflow-y: auto; /* Permite rolagem do conteúdo */
+        padding: 20px;
+    }
+    </style>
+{% endblock %}

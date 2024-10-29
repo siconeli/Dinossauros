@@ -1,40 +1,58 @@
 {% load static %}
 
-{% block titulo %}
-    <title>Entrar</title>
+{% block css %}
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock %}
 
-{% block css %}
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+{% block titulo %}
+    <title>Dinossauros</title>
 {% endblock %}
 
 {% block conteudo %}
-    <main>
-        <section class="login-section">
-            <div class="image-container-logo">
-                <img src="{% static 'img/logo-dinossauros.png' %}" >
+  <!-- <div class="p-4 bg-primary"></div> -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-4 d-flex align-items-center justify-content-center">
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3 d-flex justify-content-center align-items-center">
+            <img src="{% static 'img/logo-dinossauros.png' %}" style="height: 35%; width: 35%;">
+          </div>
+          <div class="d-flex justify-content-center align-items-center">
+            <h4 class="mb-4">Dinossauros</h4>
+          </div>
+          <!-- Acesso com Usuário/Senha -->
+          {% if form.errors %}
+            <div class="alert alert-danger" id="error" role="alert">
+              Usuário e/ou senha inválidos
             </div>
-            <h1>Escola Dinossauros</h1>
-            <form action="" method="post">
-                <div class="login-form">
-                    {% csrf_token %}
-                    {% if form.errors %}
-                        <div class="fail-login-alert" id="alert">
-                            <span>Usuário ou Senha incorreto</span>
-                        </div>
-                    {% endif %}
-                    <input type="username" id="username" name="username" placeholder="Digitar usuário..." required>
-                    <input type="password" id="password" name="password" placeholder="Digitar senha..." required>
-                </div>
-                <button type="submit">Entrar</button>
-            </form>
-        </section>
-        <section class="banner-section">
-            <img src="{% static 'img/banner-dinossauros.svg' %}"/>
-        </section>
-    </main>
+          {% endif %}
+          <div class="mb-3">
+            <label for="username" class="form-label">Usuário</label>
+            <input type="text" class="form-control" id="username" name="username">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="password" name="password">
+          </div>
+          <button type="submit" class="btn" style="background-color: #03a8e8; color: white;">Entrar</button>
+        </form>
+      </div>
+      <div class="col-8 d-flex align-items-center justify-content-center" style="background-color: #fcf6f1;">
+        <img src="{% static 'img/banner-dinossauros.svg' %}"/>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'js/login.js' %}"></script>
+  <!-- Jquery Js-->
+  <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script> <!--Importação Jquery sempre antes do Bootstrap-->
+  <!-- Bootstrap Js -->
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/login.js' %}"></script>
 {% endblock %}
