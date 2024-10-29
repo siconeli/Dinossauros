@@ -9,6 +9,7 @@ html, body {
     height: 50px;
     z-index: 1020; /* Mantém a navbar superior sobre o conteúdo */
     border-bottom: 1px solid #ccc;
+    background-color: #03a8e8;
 }
 
 /* Sidebar fixa */
