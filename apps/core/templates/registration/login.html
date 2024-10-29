@@ -6,13 +6,11 @@
   <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock %}
 
-
 {% block titulo %}
     <title>Dinossauros</title>
 {% endblock %}
 
 {% block conteudo %}
-  <!-- <div class="p-4 bg-primary"></div> -->
   <div class="container-fluid">
     <div class="row">
       <div class="col-4 d-flex align-items-center justify-content-center">
@@ -24,7 +22,6 @@
           <div class="d-flex justify-content-center align-items-center">
             <h4 class="mb-4">Dinossauros</h4>
           </div>
-          <!-- Acesso com Usuário/Senha -->
           {% if form.errors %}
             <div class="alert alert-danger" id="error" role="alert">
               Usuário e/ou senha inválidos
@@ -51,8 +48,10 @@
 {% block scripts %}
   <!-- Jquery Js-->
   <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script> <!--Importação Jquery sempre antes do Bootstrap-->
+  
   <!-- Bootstrap Js -->
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/popper.min.js' %}"></script>
+
   <script src="{% static 'js/login.js' %}"></script>
 {% endblock %}

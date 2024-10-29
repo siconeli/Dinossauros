@@ -1,0 +1,28 @@
+/* Estilos globais */
+html, body {
+    height: 100%;
+    overflow: hidden; /* Impede o scroll da página */
+}
+
+/* Navbar superior fixa */
+.navbar-top {
+    height: 50px;
+    z-index: 1020; /* Mantém a navbar superior sobre o conteúdo */
+}
+
+/* Sidebar fixa */
+#sidebar {
+    top: 50px; /* Compensa a altura da navbar superior */
+    bottom: 0;
+    height: calc(100vh - 50px); /* Altura total menos a navbar superior */
+    z-index: 1010;
+}
+
+/* Área de conteúdo principal com rolagem */
+main {
+    margin-top: 30px; /* Compensa a altura da navbar superior */
+    margin-left: 17%; /* Compensa a largura da sidebar */
+    height: calc(100vh - 50px); /* Altura total menos a navbar superior */
+    overflow-y: auto; /* Permite rolagem do conteúdo */
+    padding: 20px;
+}
