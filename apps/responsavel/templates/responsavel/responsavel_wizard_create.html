@@ -5,7 +5,7 @@
 {% block conteudo %}
     <main class="col-md-10 ms-sm-auto col-lg-10">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Novo Aluno</h1>
+            <h1 class="h2">Responsável</h1>
         </div>
         {% for field in form %}
             {% if field.errors %}
@@ -18,8 +18,6 @@
             {% csrf_token %}
 
             {{ wizard.management_form }}
-
-            {{ wizard.form.cpf.errors }}
 
             <label for="{{ wizard.form.nome.id_for_label }}">Nome</label>
             {{ wizard.form.nome }}
