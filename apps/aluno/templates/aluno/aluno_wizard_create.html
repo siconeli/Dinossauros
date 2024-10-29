@@ -1,25 +1,36 @@
-<h1>Create Aluno</h1>
+{% extends 'core/inicio.html' %}
+
+{% load static %}
 
 {% block conteudo %}
-    <form  method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ wizard.management_form }}
+    <main class="col-md-10 ms-sm-auto col-lg-10">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Novo Aluno</h1>
+        </div>
+        {% for field in form %}
+            {% if field.errors %}
+                <div class="alert alert-danger" id="error" role="alert">
+                    {{ field.errors|join:", " }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <form  method="post">
+            {% csrf_token %}
+            {{ wizard.management_form }}
+            
+            <label for="{{ wizard.form.nome.pk_for_label }}">Nome</label>
+            {{ wizard.form.nome}}
 
-        {{ wizard.form.cpf.errors }}
-        
-        <label for="{{ wizard.form.nome.pk_for_label }}">Nome</label>
-        {{ wizard.form.nome}}
+            <label for="{{ wizard.form.cpf.pk_for_label}}">CPF</label>
+            {{ wizard.form.cpf }}
 
-        <label for="{{ wizard.form.cpf.pk_for_label}}">CPF</label>
-        {{ wizard.form.cpf }}
+            <label for="{{ wizar.form.idade.pk_for_label }}">idade</label>
+            {{ wizard.form.idade }}
 
-        <label for="{{ wizar.form.idade.pk_for_label }}">idade</label>
-        {{ wizard.form.idade }}
-
-        <button type="submit">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
-    </form>
-
-    <a href="{% url 'inicio' %}"><button type="button">Cancelar</button></a>
+            <button type="submit">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
+        </form>
+        <a href="{% url 'inicio' %}"><button type="button">Cancelar</button></a>
+    </main>
 {% endblock %}
 
 {% block scripts %}

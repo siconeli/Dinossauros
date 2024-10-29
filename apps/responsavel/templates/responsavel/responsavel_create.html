@@ -1,45 +1,45 @@
+{% extends 'core/inicio.html' %}
+
 {% load static %}
 
-
-<h1>Create Responsável</h1>
-
 {% block conteudo %}
-    <form method="post">
-        {% csrf_token %}
-
-        <div>
-            {% for field in form %}
-                {% if field.errors %}
-                    {{ field.errors|join:", " }}
-                {% endif %}
-            {% endfor %}
+    <main class="col-md-10 ms-sm-auto col-lg-10">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Novo Responsável</h1>
         </div>
+        {% for field in form %}
+            {% if field.errors %}
+                <div class="alert alert-danger" id="error" role="alert">
+                    {{ field.errors|join:", " }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <form  method="post">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" value="{{ form.nome.value|default_if_none:'' }}" maxlength="50" required>
 
-        <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome" value="{{ form.nome.value|default_if_none:'' }}" maxlength="50" required>
+            <label for="cpf">CPF</label>
+            <input type="text" id="cpf" name="cpf" value="{{ form.cpf.value|default_if_none:'' }}" maxlength="11" required>
 
-        <label for="cpf">CPF</label>
-        <input type="text" id="cpf" name="cpf" value="{{ form.cpf.value|default_if_none:'' }}" maxlength="11" required>
+            <label for="telefone">Celular</label>
+            <input type="text" id="telefone" name="telefone" value="{{ form.telefone.value|default_if_none:'' }}" maxlength="15" required>
 
-        <label for="telefone">Celular</label>
-        <input type="text" id="telefone" name="telefone" value="{{ form.telefone.value|default_if_none:'' }}" maxlength="15" required>
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" name="endereco" value="{{ form.endereco.value|default_if_none:'' }}" maxlength="100" required>
 
-        <label for="endereco">Endereço</label>
-        <input type="text" id="endereco" name="endereco" value="{{ form.endereco.value|default_if_none:'' }}" maxlength="100" required>
+            <label for="profissao">Profissão</label>
+            <input type="text" id="profissao" name="profissao" value="{{ form.profissao.value|default_if_none:'' }}" maxlength="50">
 
-        <label for="profissao">Profissão</label>
-        <input type="text" id="profissao" name="profissao" value="{{ form.profissao.value|default_if_none:'' }}" maxlength="50">
+            <label for="sexo">Sexo</label>
+            {{ form.sexo }}
 
-        <label for="sexo">Sexo</label>
-        {{ form.sexo }}
+            <label for="parentesco">Parentesco</label>
+            {{ form.parentesco }}
 
-        <label for="parentesco">Parentesco</label>
-        {{ form.parentesco }}
-
-        <button type="submit">Cadastrar</button>
-    </form>
-
-    <a href="{{ cancelar }}"><button type="button">Cancelar</button></a>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <a href="{{ cancelar }}"><button type="button">Cancelar</button></a>
+    </main>
 {% endblock %}
 
 {% block scripts %}
