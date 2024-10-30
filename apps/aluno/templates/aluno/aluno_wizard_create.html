@@ -22,17 +22,27 @@
                         {{ wizard.form.nome }}
                         <div class="text-danger">
                             {% for error in form.nome.errors %}
-                                {{ error }}  <!-- Aqui não deve haver ponto antes do texto -->
+                                {{ error }}
                             {% endfor %}
                         </div>
                     </div>
                     <div class="col-2">
                         <label for="{{ wizard.form.cpf.pk_for_label}}">CPF</label>
                         {{ wizard.form.cpf }}
+                        <div class="text-danger">
+                            {% for error in form.cpf.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="col-2 mb-3">
                         <label for="{{ wizar.form.idade.pk_for_label }}">Idade</label>
                         {{ wizard.form.idade }}
+                        <div class="text-danger">
+                            {% for error in form.idade.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
