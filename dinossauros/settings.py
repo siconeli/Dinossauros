@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_cleanup.apps.CleanupConfig',
     'whitenoise.runserver_nostatic',
+    'widget_tweaks',
     'apps.core',
     'apps.aluno',
     'apps.responsavel',
