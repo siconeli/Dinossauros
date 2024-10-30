@@ -67,10 +67,45 @@
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Alunos</h1>
         </div>
-        <p>Bem-vindo ao painel principal. Aqui é onde o conteúdo da página será exibido.</p>
-        <p>Adicione aqui mais conteúdo para ver a rolagem funcionando...</p>
-        <p>Lorem ipsum dolor sit amet...</p>
-        <!-- Adicione mais conteúdo para testar a rolagem -->
+        <table class="table table-hover" id="listar-alunos">
+          <thead>
+              <tr class="table" >
+                <th>Status</th>
+                <th>Nome</th>      
+                <th>Detalhes</th>   
+                <th></th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for aluno in alunos %}
+              <tr>
+                <td>{{ aluno.ativo }}</td>
+                <td class="td-aluno-nome">{{ aluno.nome}}</td>
+                <td>
+                  <a href="{% url 'aluno-detail' aluno.pk %}">Detalhes</a>
+                </td>
+                <td>
+                  <button id="openModal">Excluir</button>
+
+                  <!-- Modal -->
+                  <div id="modalDelete" class="modal">
+                    <div class="modal-content">
+                      <span class="close">&times;</span>
+                      <header>
+                        <h2>Exclusão de Aluno</h2>
+                      </header>
+                      <p>Tem certeza que deseja excluir o cadastro do aluno?</p>
+                      <button type="button" id="btn-excluir">Excluir</button>
+                    </div>
+                  </div>
+                  <form id="formDelete" method="post" action="{% url 'aluno-delete' aluno.pk  %}">
+                    {% csrf_token %}
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}  
+          </tbody>
+        </table>
       </main>
     {% endblock %}
 
@@ -85,4 +120,42 @@
   </html>
   
 {% block scripts %}
+  <script src="{% static 'js/inicio.js' %}"></script>
+  <script src="https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('#listar-alunos').DataTable({
+          responsive: true,
+          // "ordering": false, // Remove as opções das colunas de ordenar a tabela.
+          "searching": false, // Remove o campo input de busca "search"
+          // "bSort": false,
+          "aaSorting": [],
+          "pageLength": 8,
+          "language": {
+              "decimal": "",
+              "emptyTable": "Nenhum processo filtrado",
+              "info": "Filtrados: _TOTAL_ ",
+              "infoEmpty": "Ativos: 0",
+              "infoFiltered": "",
+              "infoPostFix": "",
+              "thousands": ",",
+              "lengthMenu": "Mostrar _MENU_ processos",
+              "loadingRecords": "A carregar dados...",
+              "processing": "A processar...",
+              // "search": "Buscar:",
+              "zeroRecords": "Nenhum processo filtrado",
+              "paginate": {
+                  "first": "Primeiro",
+                  "last": "Último",
+                  "next": "Próximo",
+                  "previous": "Anterior"
+              },
+              "aria": {
+                  "sortAscending": ": ordem crescente",
+                  "sortDescending": ": ordem decrescente"
+              }
+          }
+      });
+  });
+  </script>
 {% endblock %}
