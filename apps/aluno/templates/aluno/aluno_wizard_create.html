@@ -16,27 +16,29 @@
                 </div>
             {% endif %}
         {% endfor %}
+
         <form  method="post">
-            {% csrf_token %}
-            {{ wizard.management_form }}
-            
-            <div class="row">
-                <div class="col-8">
-                    <label for="{{ wizard.form.nome.pk_for_label }}">Nome</label>
-                    {{ wizard.form.nome|add_class:"form-control form-control-sm" }}
-                </div>
-                <div class="col-2">
-                    <label for="{{ wizard.form.cpf.pk_for_label}}">CPF</label>
-                    {{ wizard.form.cpf|add_class:"form-control form-control-sm" }}
-                </div>
-                <div class="col-2 mb-3">
-                    <label for="{{ wizar.form.idade.pk_for_label }}">idade</label>
-                    {{ wizard.form.idade|add_class:"form-control form-control-sm" }}
+            <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke    ;">
+                {% csrf_token %}
+                {{ wizard.management_form }}
+                
+                <div class="row">
+                    <div class="col-8">
+                        <label for="{{ wizard.form.nome.pk_for_label }}">Nome</label>
+                        {{ wizard.form.nome|add_class:"form-control form-control-sm" }}
+                    </div>
+                    <div class="col-2">
+                        <label for="{{ wizard.form.cpf.pk_for_label}}">CPF</label>
+                        {{ wizard.form.cpf|add_class:"form-control form-control-sm" }}
+                    </div>
+                    <div class="col-2 mb-3">
+                        <label for="{{ wizar.form.idade.pk_for_label }}">idade</label>
+                        {{ wizard.form.idade|add_class:"form-control form-control-sm" }}
+                    </div>
                 </div>
             </div>
-            
-            <a href="{% url 'inicio' %}"><button type="button" class="btn">Cancelar</button></a>
-            <button type="submit" class="btn">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
+                <a href="{% url 'inicio' %}"><button type="button" class="btn">Cancelar</button></a>
+                <button type="submit" class="btn">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
         </form>
     </main>
 {% endblock %}
