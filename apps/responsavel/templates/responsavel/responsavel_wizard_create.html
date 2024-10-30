@@ -15,7 +15,7 @@
         <form method="post" novalidate> <!--Colocar o novalidate para a mensagem de erro aparecer em baixo do input no template-->
             {% csrf_token %}
             {{ wizard.management_form }}
-            <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke    ;"></div>
+            <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke    ;">
                 <div class="row mb-2">
                     <div class="col-8">
                         <label for="{{ wizard.form.nome.id_for_label }}">Nome</label>
@@ -112,27 +112,5 @@
             // Remove a máscara de CPF ou CNPJ
             $("#cpf").unmask();
         });
-    </script>
-
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (() => {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-            }
-
-            form.classList.add('was-validated')
-            }, false)
-        })
-        })()
     </script>
 {% endblock %}
