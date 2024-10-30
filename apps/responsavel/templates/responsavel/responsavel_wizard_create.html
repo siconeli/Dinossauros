@@ -7,44 +7,60 @@
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Responsável</h1>
         </div>
-        {% for field in form %}
+        <!-- {% for field in form %}
             {% if field.errors %}
                 <div class="alert alert-danger" id="error" role="alert">
                     {{ field.errors|join:", " }}
                 </div>
             {% endif %}
-        {% endfor %}
+        {% endfor %} -->
         <form method="post" novalidate>
             {% csrf_token %}
-
             {{ wizard.management_form }}
-
-            <label for="{{ wizard.form.nome.id_for_label }}">Nome</label>
-            {{ wizard.form.nome }}
-
-            <label for="{{ wizard.form.cpf.id_for_label }}">CPF</label>
-            {{ wizard.form.cpf }}
-
-            <label for="{{ wizard.form.telefone.id_for_label }}">Telefone</label>
-            {{ wizard.form.telefone }}
-
-            <label for="{{ wizard.form.endereco.id_for_label }}">Endereço</label>
-            {{ wizard.form.endereco }}
-
-            <label for="{{ wizard.form.profissao.id_for_label }}">Profissão</label>
-            {{ wizard.form.profissao }}
-
-            <label for="{{ wizard.form.sexo.id_for_label }}">Sexo</label>
-            {{ wizard.form.sexo }}
-
-            <label for="{{ wizard.form.parentesco.id_for_label }}">Parentesco</label>
-            {{ wizard.form.parentesco }}
-
+            <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke    ;"></div>
+                <div class="row mb-2">
+                    <div class="col-8">
+                        <label for="{{ wizard.form.nome.id_for_label }}">Nome</label>
+                        {{ wizard.form.nome }}
+                        <div class="text-danger">{{ form.nome.errors }}</div> <!-- Exibe erros do campo nome -->
+                        <!-- <div class="valid-feedback">
+                            Valido!
+                        </div> -->
+                    </div>
+                    <div class="col-2">
+                        <label for="{{ wizard.form.cpf.id_for_label }}">CPF</label>
+                        {{ wizard.form.cpf }}
+                    </div>
+                    <div class="col-2">
+                        <label for="{{ wizard.form.telefone.id_for_label }}">Telefone</label>
+                        {{ wizard.form.telefone }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <label for="{{ wizard.form.endereco.id_for_label }}">Endereço</label>
+                        {{ wizard.form.endereco }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <label for="{{ wizard.form.profissao.id_for_label }}">Profissão</label>
+                        {{ wizard.form.profissao }}
+                    </div>
+                    <div class="col">
+                        <label for="{{ wizard.form.sexo.id_for_label }}">Sexo</label>
+                        {{ wizard.form.sexo }}
+                    </div>
+                    <div class="col">
+                        <label for="{{ wizard.form.parentesco.id_for_label }}">Parentesco</label>
+                        {{ wizard.form.parentesco }}
+                    </div>
+                </div>
+            </div>
             {% if wizard.steps.prev %}
-                <button type="submit" name="wizard_goto_step" value="{{ wizard.steps.prev }}">Retornar</button>
+                <button type="submit" class="btn" name="wizard_goto_step" value="{{ wizard.steps.prev }}">Retornar</button>
             {% endif %}
-
-            <button type="submit">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
+            <button type="submit" class="btn">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
         </form>
     </main>
 {% endblock %}
@@ -67,5 +83,27 @@
             // Remove a máscara de CPF ou CNPJ
             $("#cpf").unmask();
         });
+    </script>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+            }, false)
+        })
+        })()
     </script>
 {% endblock %}

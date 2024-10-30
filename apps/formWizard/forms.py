@@ -9,8 +9,9 @@ class AlunoForm(forms.ModelForm):
         model = Aluno
         fields = ['nome', 'cpf', 'idade']
         widgets = {
-            'cpf': forms.TextInput(attrs={'id': 'cpf'}),
-            'idade': forms.NumberInput(attrs={'max': 100, 'min': 1})
+            'nome': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'nome'}),
+            'cpf': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'cpf'}),
+            'idade': forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'max': 100, 'min': 1})
         }
 
         def clean_cpf(self):
@@ -24,8 +25,13 @@ class ResponsavelForm(forms.ModelForm):
         model = Responsavel
         fields = ['nome', 'cpf', 'telefone', 'endereco', 'profissao', 'sexo', 'parentesco']
         widgets = {
-            'cpf': forms.TextInput(attrs={'id': 'cpf'}),
-            'telefone': forms.TextInput(attrs={'id': 'telefone'})
+            'nome': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'required': True}),
+            'cpf': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'cpf'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'telefone'}),
+            'endereco': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'endereco'}),
+            'profissao': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'profissao'}),
+            'sexo': forms.Select(attrs={'class': 'form-control form-control-sm', 'id': 'sexo'}),
+            'parentesco': forms.Select(attrs={'class': 'form-control form-control-sm', 'id': 'parentesco'}),
         }
 
     def clean_cpf(self): # Verificar cpf existente para não permitir duplicidade.

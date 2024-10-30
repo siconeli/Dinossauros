@@ -2,43 +2,42 @@
 
 {% load static %}
 
-{% load widget_tweaks %} <!-- Carrega o widget_tweaks para usar o add_class -->
-
 {% block conteudo %}
     <main class="col-md-10 ms-sm-auto col-lg-10">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Aluno</h1>
         </div>
-        {% for field in form %}
-            {% if field.errors %}
-                <div class="alert alert-danger" id="error" role="alert">
-                    {{ field.errors|join:", " }}
-                </div>
-            {% endif %}
-        {% endfor %}
-
-        <form  method="post">
+        {% if form.errors %}
+            <div class="alert alert-danger" id="error" role="alert">
+                Existem campos inválidos no formulário!
+            </div>
+        {% endif %}
+        <form  method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            {{ wizard.management_form }}
             <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke    ;">
-                {% csrf_token %}
-                {{ wizard.management_form }}
-                
                 <div class="row">
                     <div class="col-8">
                         <label for="{{ wizard.form.nome.pk_for_label }}">Nome</label>
-                        {{ wizard.form.nome|add_class:"form-control form-control-sm" }}
+                        {{ wizard.form.nome }}
+                        <div class="text-danger">
+                            {% for error in form.nome.errors %}
+                                {{ error }}  <!-- Aqui não deve haver ponto antes do texto -->
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="col-2">
                         <label for="{{ wizard.form.cpf.pk_for_label}}">CPF</label>
-                        {{ wizard.form.cpf|add_class:"form-control form-control-sm" }}
+                        {{ wizard.form.cpf }}
                     </div>
                     <div class="col-2 mb-3">
-                        <label for="{{ wizar.form.idade.pk_for_label }}">idade</label>
-                        {{ wizard.form.idade|add_class:"form-control form-control-sm" }}
+                        <label for="{{ wizar.form.idade.pk_for_label }}">Idade</label>
+                        {{ wizard.form.idade }}
                     </div>
                 </div>
             </div>
-                <a href="{% url 'inicio' %}"><button type="button" class="btn">Cancelar</button></a>
-                <button type="submit" class="btn">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
+            <a href="{% url 'inicio' %}"><button type="button" class="btn">Cancelar</button></a>
+            <button type="submit" class="btn">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
         </form>
     </main>
 {% endblock %}
