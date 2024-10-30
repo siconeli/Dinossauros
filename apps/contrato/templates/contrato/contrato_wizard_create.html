@@ -1,28 +1,65 @@
-<h1>Create Contrato</h1>
+{% extends 'core/inicio.html' %}
+
+{% load static %}
 
 {% block conteudo %}
-    <form method="post" novalidate>
-        {% csrf_token %}
-        {{ wizard.management_form }}
-
-        <label for="{{ wizard.form.valor.id_for_label }}">Valor</label>
-        {{ wizard.form.valor }}
-
-        <label for="{{ wizard.form.periodo.id_for_label }}">Período</label>
-        {{ wizard.form.periodo }}
-
-        <label for="{{ wizard.form.data_inicio.id_for_label }}">Início</label>
-        {{ wizard.form.data_inicio }}
-
-        <label for="{{ wizard.form.data_fim.id_for_label }}">Fim</label>
-        {{ wizard.form.data_fim }}
-
-        {% if wizard.steps.prev %}
-            <button type="submit" name="wizard_goto_step" value="{{ wizard.steps.prev }}">Retornar</button>
+    <main class="col-md-10 ms-sm-auto col-lg-10">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Contrato</h1>
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger" id="error" role="alert">
+                Existe um ou mais campos inválidos no formulário!
+            </div>
         {% endif %}
-
-        <button type="submit">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
-    </form>
+        <form method="post" novalidate> <!--Colocar o novalidate para a mensagem de erro aparecer em baixo do input no template-->
+            {% csrf_token %}
+            {{ wizard.management_form }}
+            <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke    ;">
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="{{ wizard.form.valor.id_for_label }}">Valor</label>
+                        {{ wizard.form.valor }}
+                        <div class="text-danger">
+                            {% for error in form.valor.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="{{ wizard.form.periodo.id_for_label }}">Período</label>
+                        {{ wizard.form.periodo }}
+                        <div class="text-danger">
+                            {% for error in form.periodo.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="{{ wizard.form.data_inicio.id_for_label }}">Início</label>
+                        {{ wizard.form.data_inicio }}
+                        <div class="text-danger">
+                            {% for error in form.data_inicio.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="{{ wizard.form.data_fim.id_for_label }}">Fim</label>
+                        {{ wizard.form.data_fim }}
+                        <div class="text-danger">
+                            {% for error in form.data_fim.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
+            {% if wizard.steps.prev %}
+                <button type="submit" class="btn" name="wizard_goto_step" value="{{ wizard.steps.prev }}">Retornar</button>
+            {% endif %}
+        </form>
 {% endblock %}
 
 {% block scripts %}

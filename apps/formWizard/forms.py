@@ -11,14 +11,22 @@ class AlunoForm(forms.ModelForm):
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'nome', 'required': True}),
             'cpf': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'cpf', 'required': True}),
-            'idade': forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'max': 100, 'min': 1, 'required': True})
+            'idade': forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'max': 100, 'min': 1})
         }
 
-        def clean_cpf(self):
-            cpf = self.cleaned_data.get('cpf')
-            if Aluno.objects.filter(cpf=cpf).exists():
-                raise forms.ValidationError('Esse CPF já está cadastrado. Por favor, insira um CPF único.')
-            return cpf
+    def clean_cpf(self):
+        cpf = self.cleaned_data.get('cpf')
+        if Aluno.objects.filter(cpf=cpf).exists():
+            raise forms.ValidationError('CPF já cadastrado.')
+        return cpf
+    
+    def clean_idade(self):
+        idade = self.cleaned_data.get('idade')
+        if idade < 1:
+            raise forms.ValidationError('Mínimo: 1 ano.')
+        if idade > 100:
+            raise forms.ValidationError('Máximo: 100 anos.')
+        return idade
         
 class ResponsavelForm(forms.ModelForm):
     class Meta:
@@ -37,7 +45,7 @@ class ResponsavelForm(forms.ModelForm):
     def clean_cpf(self): # Verificar cpf existente para não permitir duplicidade.
         cpf = self.cleaned_data.get('cpf')
         if Responsavel.objects.filter(cpf=cpf).exists():
-            raise forms.ValidationError('Esse CPF já está cadastrado. Por favor, insira um CPF único.')
+            raise forms.ValidationError('CPF já cadastrado.')
         return cpf  
 
 class ContratoForm(forms.ModelForm):
@@ -45,10 +53,17 @@ class ContratoForm(forms.ModelForm):
         model = Contrato
         fields = ['valor', 'periodo', 'data_inicio', 'data_fim']
         widgets = {
-            'valor': forms.TextInput(attrs={'id': 'valor'}),
-            'data_inicio': forms.DateInput(attrs={'type': 'date'}),
-            'data_fim': forms.DateInput(attrs={'type': 'date'})
+            'valor': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'valor', 'maxlength': 17, 'required': True}),
+            'periodo': forms.Select(attrs={'class': 'form-control form-control-sm', 'id': 'periodo', 'required': True}),
+            'data_inicio': forms.DateInput(attrs={'class': 'form-control form-control-sm', 'type': 'date', 'id': 'data_inicio', 'required': True}),
+            'data_fim': forms.DateInput(attrs={'class': 'form-control form-control-sm', 'type': 'date', 'id': 'data_fim', 'required': True})
         }
+    
+    def clean_valor(self):
+        valor = self.cleaned_data.get('valor')
+        if valor < 1:
+            raise forms.ValidationError('Este campo é obrigatório.')
+        return valor
 
 class FichaForm(forms.ModelForm):
     class Meta:

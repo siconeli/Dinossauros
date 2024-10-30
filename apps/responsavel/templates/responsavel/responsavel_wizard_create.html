@@ -15,7 +15,7 @@
         <form method="post" novalidate> <!--Colocar o novalidate para a mensagem de erro aparecer em baixo do input no template-->
             {% csrf_token %}
             {{ wizard.management_form }}
-            <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke    ;">
+            <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke;">
                 <div class="row mb-2">
                     <div class="col-8">
                         <label for="{{ wizard.form.nome.id_for_label }}">Nome</label>
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-2">
+                <div class="row mb-3">
                     <div class="col">
                         <label for="{{ wizard.form.profissao.id_for_label }}">Profissão</label>
                         {{ wizard.form.profissao }}
@@ -86,10 +86,10 @@
                     </div>
                 </div>
             </div>
+            <button type="submit" class="btn">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
             {% if wizard.steps.prev %}
                 <button type="submit" class="btn" name="wizard_goto_step" value="{{ wizard.steps.prev }}">Retornar</button>
             {% endif %}
-            <button type="submit" class="btn">{% if wizard.steps.next %} Avançar {% else %} Finalizar {% endif %}</button>
         </form>
     </main>
 {% endblock %}
