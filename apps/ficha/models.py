@@ -11,7 +11,7 @@ class Ficha(Base):
     refluxo = models.BooleanField(default=False, blank=True)
     convulsoes = models.BooleanField(default=False, blank=True)
     remedio_continuo = models.BooleanField(default=False, blank=True)
-    obs = models.TextField(max_length=500, blank=True, null=True)
+    obs = models.TextField(max_length=2000, blank=True, null=True)
 
     def __str__(self):
         return self.cuidado_especial

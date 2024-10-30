@@ -69,3 +69,7 @@ class FichaForm(forms.ModelForm):
     class Meta:
         model = Ficha
         fields = ['cuidado_especial', 'alergico', 'intolerante', 'quedas', 'refluxo', 'convulsoes', 'remedio_continuo', 'obs']
+        widgets = {
+            'obs': forms.Textarea(attrs={'class': 'form-control', 'maxlength': 2000})
+        }
+   
