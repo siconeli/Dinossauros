@@ -7,14 +7,12 @@
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Responsável</h1>
         </div>
-        <!-- {% for field in form %}
-            {% if field.errors %}
-                <div class="alert alert-danger" id="error" role="alert">
-                    {{ field.errors|join:", " }}
-                </div>
-            {% endif %}
-        {% endfor %} -->
-        <form method="post" novalidate>
+        {% if form.errors %}
+            <div class="alert alert-danger" id="error" role="alert">
+                Existe um ou mais campos inválidos no formulário!
+            </div>
+        {% endif %}
+        <form method="post" novalidate> <!--Colocar o novalidate para a mensagem de erro aparecer em baixo do input no template-->
             {% csrf_token %}
             {{ wizard.management_form }}
             <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke    ;"></div>
@@ -22,38 +20,69 @@
                     <div class="col-8">
                         <label for="{{ wizard.form.nome.id_for_label }}">Nome</label>
                         {{ wizard.form.nome }}
-                        <div class="text-danger">{{ form.nome.errors }}</div> <!-- Exibe erros do campo nome -->
-                        <!-- <div class="valid-feedback">
-                            Valido!
-                        </div> -->
+                        <div class="text-danger">
+                            {% for error in form.nome.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="col-2">
                         <label for="{{ wizard.form.cpf.id_for_label }}">CPF</label>
                         {{ wizard.form.cpf }}
+                        <div class="text-danger">
+                            {% for error in form.cpf.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="col-2">
                         <label for="{{ wizard.form.telefone.id_for_label }}">Telefone</label>
                         {{ wizard.form.telefone }}
+                        <div class="text-danger">
+                            {% for error in form.telefone.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col">
                         <label for="{{ wizard.form.endereco.id_for_label }}">Endereço</label>
                         {{ wizard.form.endereco }}
+                        <div class="text-danger">
+                            {% for error in form.endereco.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col">
                         <label for="{{ wizard.form.profissao.id_for_label }}">Profissão</label>
                         {{ wizard.form.profissao }}
+                        <div class="text-danger">
+                            {% for error in form.profissao.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="col">
                         <label for="{{ wizard.form.sexo.id_for_label }}">Sexo</label>
                         {{ wizard.form.sexo }}
+                        <div class="text-danger">
+                            {% for error in form.sexo.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="col">
                         <label for="{{ wizard.form.parentesco.id_for_label }}">Parentesco</label>
                         {{ wizard.form.parentesco }}
+                        <div class="text-danger">
+                            {% for error in form.parentesco.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>

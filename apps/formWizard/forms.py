@@ -9,9 +9,9 @@ class AlunoForm(forms.ModelForm):
         model = Aluno
         fields = ['nome', 'cpf', 'idade']
         widgets = {
-            'nome': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'nome'}),
-            'cpf': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'cpf'}),
-            'idade': forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'max': 100, 'min': 1})
+            'nome': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'nome', 'required': True}),
+            'cpf': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'cpf', 'required': True}),
+            'idade': forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'max': 100, 'min': 1, 'required': True})
         }
 
         def clean_cpf(self):
@@ -26,12 +26,12 @@ class ResponsavelForm(forms.ModelForm):
         fields = ['nome', 'cpf', 'telefone', 'endereco', 'profissao', 'sexo', 'parentesco']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'required': True}),
-            'cpf': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'cpf'}),
-            'telefone': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'telefone'}),
-            'endereco': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'endereco'}),
+            'cpf': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'cpf', 'required': True}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'telefone', 'required': True}),
+            'endereco': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'endereco', 'required': True}),
             'profissao': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'profissao'}),
-            'sexo': forms.Select(attrs={'class': 'form-control form-control-sm', 'id': 'sexo'}),
-            'parentesco': forms.Select(attrs={'class': 'form-control form-control-sm', 'id': 'parentesco'}),
+            'sexo': forms.Select(attrs={'class': 'form-control form-control-sm', 'id': 'sexo', 'required': True}),
+            'parentesco': forms.Select(attrs={'class': 'form-control form-control-sm', 'id': 'parentesco', 'required': True}),
         }
 
     def clean_cpf(self): # Verificar cpf existente para não permitir duplicidade.

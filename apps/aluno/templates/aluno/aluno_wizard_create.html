@@ -9,10 +9,10 @@
         </div>
         {% if form.errors %}
             <div class="alert alert-danger" id="error" role="alert">
-                Existem campos inválidos no formulário!
+                Existe um ou mais campos inválidos no formulário!
             </div>
         {% endif %}
-        <form  method="post" class="needs-validation" novalidate>
+        <form  method="post" novalidate> <!--Colocar o novalidate para a mensagem de erro aparecer em baixo do input no template-->
             {% csrf_token %}
             {{ wizard.management_form }}
             <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke    ;">
