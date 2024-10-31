@@ -60,8 +60,8 @@
         </ul>
       </div>
     </nav>
-    
-    {% block conteudo %}   
+
+    {% block conteudo %}          
       <!-- Área Principal de Conteúdo com rolagem -->
       <main class="col-md-10 ms-sm-auto col-lg-10">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -85,20 +85,31 @@
                   <a href="{% url 'aluno-detail' aluno.pk %}">Detalhes</a>
                 </td>
                 <td>
-                  <button id="openModal">Excluir</button>
+                  <!-- Botão para abrir o modal, com um ID único -->
+                  <button id="openModal-{{ aluno.pk }}" class="btn btn-primary" data-aluno-id="{{ aluno.pk }}">Abrir Modal</button>
 
-                  <!-- Modal -->
-                  <div id="modalDelete" class="modal">
-                    <div class="modal-content">
-                      <span class="close">&times;</span>
-                      <header>
-                        <h2>Exclusão de Aluno</h2>
-                      </header>
-                      <p>Tem certeza que deseja excluir o cadastro do aluno?</p>
-                      <button type="button" id="btn-excluir">Excluir</button>
+                  <!-- Modal com um ID único -->
+                  <div class="modal fade" id="modalDelete-{{ aluno.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel-{{ aluno.pk }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="staticBackdropLabel-{{ aluno.pk }}">Excluir {{ aluno.nome }}</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Tem certeza de que deseja excluir {{ aluno.nome }}?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                          <!-- Botão de confirmação com ID único -->
+                          <button type="button" class="btn btn-primary btn-excluir" data-aluno-id="{{ aluno.pk }}">Excluir</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <form id="formDelete" method="post" action="{% url 'aluno-delete' aluno.pk  %}">
+
+                  <!-- Formulário para deletar o aluno -->
+                  <form id="formDelete-{{ aluno.pk }}" method="post" action="{% url 'aluno-delete' aluno.pk %}">
                     {% csrf_token %}
                   </form>
                 </td>
@@ -114,8 +125,6 @@
     <!-- Bootstrap Js -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
-    <script src="{% static 'js/inicio.js' %}"></script>
-
   </body>
   </html>
   
@@ -125,37 +134,63 @@
   <script>
     $(document).ready(function(){
       $('#listar-alunos').DataTable({
-          responsive: true,
-          // "ordering": false, // Remove as opções das colunas de ordenar a tabela.
-          "searching": false, // Remove o campo input de busca "search"
-          // "bSort": false,
-          "aaSorting": [],
-          "pageLength": 8,
-          "language": {
-              "decimal": "",
-              "emptyTable": "Nenhum processo filtrado",
-              "info": "Filtrados: _TOTAL_ ",
-              "infoEmpty": "Ativos: 0",
-              "infoFiltered": "",
-              "infoPostFix": "",
-              "thousands": ",",
-              "lengthMenu": "Mostrar _MENU_ processos",
-              "loadingRecords": "A carregar dados...",
-              "processing": "A processar...",
-              // "search": "Buscar:",
-              "zeroRecords": "Nenhum processo filtrado",
-              "paginate": {
-                  "first": "Primeiro",
-                  "last": "Último",
-                  "next": "Próximo",
-                  "previous": "Anterior"
-              },
-              "aria": {
-                  "sortAscending": ": ordem crescente",
-                  "sortDescending": ": ordem decrescente"
-              }
-          }
+        responsive: true,
+        "ordering": true, // Remove as opções das colunas de ordenar a tabela.
+        "searching": false, // Remove o campo input de busca "search"
+        // "bSort": false,
+        "aaSorting": [],
+        "pageLength": 10,
+        "language": {
+            "decimal": "",
+            "emptyTable": "Nenhum aluno filtrado",
+            "info": "Filtrados: _TOTAL_ ",
+            "infoEmpty": "Ativos: 0",
+            "infoFiltered": "",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ alunos",
+            "loadingRecords": "A carregar dados...",
+            "processing": "A processar...",
+            // "search": "Buscar:",
+            "zeroRecords": "Nenhum processo filtrado",
+            "paginate": {
+                "first": "Primeiro",
+                "last": "Último",
+                "next": "Próximo",
+                "previous": "Anterior"
+            },
+            "aria": {
+                "sortAscending": ": ordem crescente",
+                "sortDescending": ": ordem decrescente"
+            }
+        }
       });
-  });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {  
+      // Seleciona todos os botões de abrir modal e os configura individualmente
+      document.querySelectorAll('[id^="openModal-"]').forEach(button => {
+        button.addEventListener('click', function () {
+            const alunoId = button.getAttribute('data-aluno-id');
+            const modalElement = document.getElementById(`modalDelete-${alunoId}`);
+            
+            // Inicializa e mostra o modal específico
+            const modalInstance = new bootstrap.Modal(modalElement, {
+                backdrop: 'static',
+                keyboard: false
+            });
+            modalInstance.show();
+
+            // Configura o botão de exclusão dentro do modal
+            const deleteButton = modalElement.querySelector('.btn-excluir');
+            deleteButton.onclick = function () {
+                const formDelete = document.getElementById(`formDelete-${alunoId}`);
+                formDelete.submit();
+            };
+        });
+      });
+    });
   </script>
 {% endblock %}
