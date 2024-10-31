@@ -30,6 +30,25 @@ main {
     padding: 20px;
 }
 
-#btn-danger{
-    background-color: red;
+.pagination {
+    display: flex;
+    justify-content: flex-end; /* Alinha a paginação à direita */
+}
+
+.pagination .paginate_button.page-item.active a {
+    border: 1px solid #03a8e8; /* Define uma borda vermelha */
+    background-color: #03a8e8; /* Define a cor de fundo do link ativo */
+    color: white; /* Define a cor do texto do link ativo */
+}
+
+/* Estilo para os botões de paginação inativos (se necessário) */
+.pagination .paginate_button a {
+    border: 1px solid #ddd; /* Borda padrão */
+    color: black; /* Cor padrão do texto dos links */
+}
+
+/* Estilo para os botões de paginação ao passar o mouse */
+.pagination .paginate_button a:hover {
+    background-color: #03a8e8; /* Cor ao passar o mouse */
+    color: white; /* Cor do texto ao passar o mouse */
 }

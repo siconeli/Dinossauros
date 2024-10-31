@@ -78,6 +78,9 @@
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary">Pesquisar</button>
             </div>
+            <div class="input-group-append">
+              <a href="{% url 'inicio' %}"><button class="btn btn-primary">Limpar</button></a>
+            </div>
           </div>
         </form>
         <table class="table table-hover" id="listar-alunos">
@@ -149,7 +152,7 @@
         "searching": false, // Remove o campo input de busca "search"
         // "bSort": false,
         "aaSorting": [],
-        "pageLength": 10,
+        "pageLength": 2,
         "language": {
             "decimal": "",
             "emptyTable": "Nenhum aluno filtrado",
