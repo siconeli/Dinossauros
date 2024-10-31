@@ -29,3 +29,7 @@ main {
     overflow-y: auto; /* Permite rolagem do conteúdo */
     padding: 20px;
 }
+
+#btn-danger{
+    background-color: red;
+}
