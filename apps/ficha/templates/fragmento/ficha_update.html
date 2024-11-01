@@ -1,43 +1,58 @@
 {% load static %}
 
 {% block conteudo %}
+    {% if form.errors %}
+        <div class="alert alert-danger" id="error" role="alert">
+            Existe um ou mais campos inválidos no formulário!
+        </div>
+    {% endif %}
     <form id="ficha-update-form" hx-post="{% url 'ficha-update' ficha.pk %}" hx-target="#ficha-form" swap="innerHTML">
         {% csrf_token %}
-
-        <h1>Ficha</h1>
-
-        <div>
-            {% for field in form %}
-                {% if field.errors %}
-                    {{ field.errors|join:", " }}
-                {% endif %}
-            {% endfor %}
+        <div class="row">
+            <div class="col">
+                <input type="checkbox" id="cuidado_especial" name="cuidado_especial" class="input-update-ficha" disabled {% if ficha.cuidado_especial %} checked {% endif %}>
+                <label for="cuidado_especial">Necessita de algum cuidado especial?</label>
+            </div>
+            <div class="col">
+                <input type="checkbox" id="alergico" name="alergico" disabled class="input-update-ficha" {% if ficha.alergico %} checked {% endif %}>    
+                <label for="alergico">Alergico?</label>
+            </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <input type="checkbox" id="intolerante" name="intolerante" disabled class="input-update-ficha" {% if ficha.intolerante %} checked {% endif %}>    
+                <label for="intolerante">Intolerante a algum alimento?</label>
+            </div>
+            <div class="col">
+                <input type="checkbox" id="quedas" name="quedas" disabled class="input-update-ficha" {% if ficha.quedas %} checked {% endif %}>    
+                <label for="quedas">Já sofreu quedas?</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <input type="checkbox" id="refluxo" name="refluxo" disabled class="input-update-ficha" {% if ficha.refluxo %} checked {% endif %}>
+                <label for="refluxo">Tem refluxo?</label>
+            </div>
+            <div class="col">
+                <input type="checkbox" id="convulsoes" name="convulsoes" disabled class="input-update-ficha" {% if ficha.convulsoes %} checked {% endif %}>    
+                <label for="convulsoes">Convulsões?</label>
+            </div>
+        </div>
+
         
-        <label for="cuidado_especial">Necessita de algum cuidado especial?</label>
-        <input type="checkbox" id="cuidado_especial" name="cuidado_especial" class="input-update-ficha" disabled {% if ficha.cuidado_especial %} checked {% endif %}>
+        <div class="row mb-2">
+            <div class="col">
+                <input type="checkbox" id="remedio_continuo" name="remedio_continuo" disabled class="input-update-ficha" {% if ficha.remedio_continuo %} checked {% endif %}>
+                <label for="remedio_continuo">Toma algum remédio de uso contínuo?</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="obs">Observações</label>
+                <input type="text" id="obs" name="obs" class="form-control form-control-sm input-update-ficha mb-3" disabled value="{{ ficha.obs }}">
+            </div>
+        </div>
 
-        <label for="alergico">Alergico?</label>
-        <input type="checkbox" id="alergico" name="alergico" disabled class="input-update-ficha" {% if ficha.alergico %} checked {% endif %}>
-
-        <label for="intolerante">Intolerante a algum alimento?</label>
-        <input type="checkbox" id="intolerante" name="intolerante" disabled class="input-update-ficha" {% if ficha.intolerante %} checked {% endif %}>
-
-        <label for="quedas">Já sofreu quedas?</label>
-        <input type="checkbox" id="quedas" name="quedas" disabled class="input-update-ficha" {% if ficha.quedas %} checked {% endif %}>
-
-        <label for="refluxo">Tem refluxo?</label>
-        <input type="checkbox" id="refluxo" name="refluxo" disabled class="input-update-ficha" {% if ficha.refluxo %} checked {% endif %}>
-
-        <label for="convulsoes">Convulsões?</label>
-        <input type="checkbox" id="convulsoes" name="convulsoes" disabled class="input-update-ficha" {% if ficha.convulsoes %} checked {% endif %}>
-
-        <label for="remedio_continuo">Toma algum remédio de uso contínuo?</label>
-        <input type="checkbox" id="remedio_continuo" name="remedio_continuo" disabled class="input-update-ficha" {% if ficha.remedio_continuo %} checked {% endif %}>
-
-        <label for="obs">Observações</label>
-        <input type="text" id="obs" name="obs" class="form-control form-control-sm input-update-ficha" disabled value="{{ ficha.obs }}">
-        
         <button type="button" class="btn" onclick="removeDisabled('input-update-ficha', 'salvar_ficha')">Editar</button>
         <button type="submit" class="btn" id="salvar_ficha" style="display: none;">Salvar</button>
     </form>
