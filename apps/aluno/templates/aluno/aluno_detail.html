@@ -85,7 +85,7 @@
                                     </div>
                                 </div>
                             
-                                <form class="formDelete-{{ resp.pk }}" method="post" action="{% url 'resp-delete' resp.pk  %}">
+                                <form id="formDelete-{{ resp.pk }}" method="post" action="{% url 'resp-delete' resp.pk  %}">
                                     {% csrf_token %}
                                 </form>
                             </td>
