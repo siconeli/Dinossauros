@@ -16,7 +16,7 @@ class AlunoForm(forms.ModelForm):
 
     def clean_cpf(self):
         cpf = self.cleaned_data.get('cpf')
-        if Aluno.objects.filter(cpf=cpf).exists():
+        if Aluno.objects.filter(cpf=cpf).exclude(id=self.instance.id).exists():
             raise forms.ValidationError('CPF já cadastrado.')
         return cpf
     

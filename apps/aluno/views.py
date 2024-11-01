@@ -50,9 +50,6 @@ class AlunoUpdate(LoginRequiredMixin, View):
             form = AlunoForm(request.POST, instance=aluno)
 
             if form.is_valid():
-                if Aluno.objects.filter(cpf=form.cleaned_data['cpf']).exclude(id=pk).exists():
-                    return render(request, 'fragmento/aluno_update.html', {'form': form, 'aluno': aluno})
-
                 form.save()
                 return render(request, 'fragmento/aluno_update.html', {'aluno': aluno})
 
