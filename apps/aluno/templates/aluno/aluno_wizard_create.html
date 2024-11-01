@@ -15,7 +15,7 @@
         <form  method="post" novalidate> <!--Colocar o novalidate para a mensagem de erro aparecer em baixo do input no template-->
             {% csrf_token %}
             {{ wizard.management_form }}
-            <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke;">
+            <div class="container-fluid py-2 border mb-2" style="background-color: whitesmoke;">
                 <div class="row mb-3">
                     <div class="col-8">
                         <label for="{{ wizard.form.nome.pk_for_label }}">Nome</label>

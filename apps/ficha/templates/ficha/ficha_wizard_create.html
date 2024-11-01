@@ -5,7 +5,7 @@
 {% block conteudo %}
     <main class="col-md-10 ms-sm-auto col-lg-10">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Aluno</h1>
+            <h1 class="h2">Ficha</h1>
         </div>
         {% if form.errors %}
             <div class="alert alert-danger" id="error" role="alert">
@@ -15,7 +15,7 @@
         <form  method="post" novalidate> <!--Colocar o novalidate para a mensagem de erro aparecer em baixo do input no template-->
             {% csrf_token %}
             {{ wizard.management_form }}
-            <div class="container-fluid py-2 border-top border-bottom mb-2" style="background-color: whitesmoke;">
+            <div class="container-fluid py-2 border mb-2" style="background-color: whitesmoke;">
                 <div class="row">
                     <div class="col">
                         {{ wizard.form.cuidado_especial }}
@@ -59,7 +59,7 @@
                         <label class="form-check-label" for="{{ wizard.form.remedio_continuo.id_for_label }}">Toma algum remédio de uso contínuo?</label>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col">
                         <label class="form-check-label" for="{{ wizard.form.obs.id_for_label }}">Observações</label>
                         {{ wizard.form.obs }}
