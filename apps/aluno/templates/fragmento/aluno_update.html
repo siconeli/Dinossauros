@@ -9,6 +9,12 @@
     <form id="aluno-update-form" hx-post="{% url 'aluno-update' aluno.pk %}" hx-target="#aluno-form" hx-swap="innerHTML">
         {% csrf_token %}        
         <div class="row">
+            <div class="col mb-3"">
+                <input type="checkbox" id="congelar" name="congelar" disabled class="input-update-aluno" {% if not aluno.ativo %} checked {% endif %}> <!--{% if aluno.ativo %} checked {% endif %}-->
+                <label for="congelar">Congelar</label>
+            </div>
+        </div>
+        <div class="row">
             <div class="col">
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" name="nome" disabled class="form-control form-control-sm input-update-aluno" value="{{ aluno.nome }}" maxlength="50" required>

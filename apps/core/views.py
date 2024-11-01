@@ -18,7 +18,7 @@ class InicioView(LoginRequiredMixin, TemplateView):
                 if a.ativo is True:
                     a.ativo = 'Ativo'
                 else:
-                    a.ativo = 'Inativo'
+                    a.ativo = 'Congelado'
             context['alunos'] = aluno
         else:
             aluno = Aluno.objects.all().order_by('-pk', 'ativo')
@@ -27,7 +27,7 @@ class InicioView(LoginRequiredMixin, TemplateView):
                 if a.ativo is True:
                     a.ativo = 'Ativo'
                 else:
-                    a.ativo = 'Inativo'
+                    a.ativo = 'Congelado'
             context['alunos'] = aluno
 
         return context

@@ -23,12 +23,13 @@
             {% include 'fragmento/contrato_update.html' with contrato=contrato %}
         </div>
   
+        <h5 class="mb-2">Ficha</h5> 
         <div class="container-fluid py-4 border mb-3" style="background-color: whitesmoke;" id="ficha-form">
             {% include 'fragmento/ficha_update.html' with ficha=ficha %}
         </div>
 
+        <h5 class="mb-2">Responsáveis</h5> 
         <div class="container-fluid py-4 border mb-3" style="background-color: whitesmoke;">
-            <h1>Responsáveis</h1>
             <a href="{% url 'resp-create' object.pk %}"><button class="btn">Cadastrar</button></a>
     
             <table id="responsavel">
@@ -78,9 +79,8 @@
             </table>
         </div>
 
+        <h5 class="mb-2">Documentos</h5> 
         <div class="container-fluid py-4 border" style="background-color: whitesmoke;">
-            <h1>Documentos</h1>
-
             <form hx-post="{% url 'upload-documento' object.pk %}" 
                 hx-encoding="multipart/form-data"
                 enctype="multipart/form-data"

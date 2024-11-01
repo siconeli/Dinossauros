@@ -5,8 +5,11 @@ from apps.contrato.models import Contrato
 from apps.ficha.models import Ficha
 
 class AlunoForm(forms.ModelForm):
+    congelar = forms.BooleanField(required=False, label="Congelar") # Colocado fora da classe Meta pois é um atributo que não faz parte do modelo Aluno, é utilizado apenas para receber um valor booleano que será utilizado na view de updateALuno, para ativar ou inativar um objeto ALuno.
+
     class Meta:
         model = Aluno
+
         fields = ['nome', 'cpf', 'idade']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'id': 'nome', 'required': True}),

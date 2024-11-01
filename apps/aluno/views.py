@@ -50,7 +50,15 @@ class AlunoUpdate(LoginRequiredMixin, View):
             form = AlunoForm(request.POST, instance=aluno)
 
             if form.is_valid():
-                form.save()
+                if form.cleaned_data.get('congelar'):
+                    aluno = form.save(commit=False)
+                    aluno.ativo = False
+                    aluno.save()
+                else:
+                    aluno = form.save(commit=False)
+                    aluno.ativo = True
+                    aluno.save()
+                    
                 return render(request, 'fragmento/aluno_update.html', {'aluno': aluno})
 
             return render(request, 'fragmento/aluno_update.html', {'form': form, 'aluno': aluno})

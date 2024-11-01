@@ -140,7 +140,9 @@
                             <h5 class="modal-title fs-5" id="staticBackdropLabel-{{ aluno.pk }}">Confirmar exclusão</h5>
                           </div>
                           <div class="modal-body">
-                            Tem certeza que deseja excluir o aluno <b>{{ aluno.nome }}</b>?
+                            <p>Existe a funcionalidade <b>congelar</b>, para manter os dados, não sendo necessário a exclusão.</p>
+                            
+                            Confirme se realmente deseja uma exclusão permanente do aluno <b>{{ aluno.nome }}</b>.
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
