@@ -85,7 +85,7 @@
                                     </div>
                                 </div>
                             
-                                <form class="formDelete" method="post" action="{% url 'resp-delete' resp.pk  %}">
+                                <form class="formDelete-{{ resp.pk }}" method="post" action="{% url 'resp-delete' resp.pk  %}">
                                     {% csrf_token %}
                                 </form>
                             </td>
@@ -166,13 +166,9 @@
             });
 
             $('.dataTables_length').hide(); // Remove do data-table -> "lengthMenu": "Mostrar _MENU_ alunos", 
-        });
-    </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {  
-            // Seleciona todos os botões de abrir modal e os configura individualmente
-            document.querySelectorAll('[id^="openModal-"]').forEach(button => {
+             // Abrir modal de Delete Responsável e enviar formulário - Seleciona todos os botões de abrir modal e os configura individualmente
+             document.querySelectorAll('[id^="openModal-"]').forEach(button => {
                 button.addEventListener('click', function () {
                     const respId = button.getAttribute('data-resp-id');
                     const modalElement = document.getElementById(`modalDelete-${respId}`);
@@ -194,4 +190,10 @@
             });
         });
     </script>
+
+    <script>
+    //     document.addEventListener('DOMContentLoaded', function () {  
+           
+    //     });
+    // </script>
 {% endblock %}
