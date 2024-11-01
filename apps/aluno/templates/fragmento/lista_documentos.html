@@ -13,7 +13,7 @@
                 <td>{{ documento.nome }}</td>
                 <td><a href="{{ documento.arquivo.url }}" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/download.png' %}" alt=""></a></td>
                 <td>
-                    <button class="openModal">Excluir</button>
+                    <button class="btn openModal">Excluir</button>
                 
                     <!-- Modal -->
                     <div class="modalDelete modal">
@@ -23,7 +23,7 @@
                                 <h2>Exclusão de Documento</h2>
                             </header>
                             <p>Tem certeza que deseja excluir o Documento?</p>
-                            <button type="button" class="btn-excluir">Excluir</button>
+                            <button type="button" class="btn btn-excluir">Excluir</button>
                         </div>
                     </div>
                     <form class="formDelete" method="post" action="{% url 'delete-documento' documento.pk  %}">

@@ -13,21 +13,21 @@
             <h1 class="h2">Dados do Aluno</h1>
         </div>
 
-        <div class="container-fluid py-4 border" style="background-color: whitesmoke;" id="aluno-form">
+        <div class="container-fluid py-4 border mb-3" style="background-color: whitesmoke;" id="aluno-form">
             {% include 'fragmento/aluno_update.html' with aluno=aluno %}
         </div>
 
-        <div class="container-fluid py-4 border" style="background-color: whitesmoke;" id="contrato-form">
+        <div class="container-fluid py-4 border mb-3" style="background-color: whitesmoke;" id="contrato-form">
             {% include 'fragmento/contrato_update.html' with contrato=contrato %}
         </div>
   
-        <div class="container-fluid py-4 border" style="background-color: whitesmoke;" id="ficha-form">
+        <div class="container-fluid py-4 border mb-3" style="background-color: whitesmoke;" id="ficha-form">
             {% include 'fragmento/ficha_update.html' with ficha=ficha %}
         </div>
 
-        <div class="container-fluid py-4 border" style="background-color: whitesmoke;">
+        <div class="container-fluid py-4 border mb-3" style="background-color: whitesmoke;">
             <h1>Responsáveis</h1>
-            <a href="{% url 'resp-create' object.pk %}"><button>Novo Responsável</button></a>
+            <a href="{% url 'resp-create' object.pk %}"><button class="btn">Cadastrar</button></a>
     
             <table id="responsavel">
                 <thead>
@@ -53,7 +53,7 @@
                             <td>{{ resp.sexo }}</td>
                             <td>{{ resp.parentesco }}</td>
                             <td>
-                                <button class="openModal">Excluir</button>
+                                <button class="btn openModal">Excluir</button>
                             
                                 <!-- Modal -->
                                 <div class="modalDelete modal">
@@ -83,11 +83,22 @@
                 hx-encoding="multipart/form-data"
                 enctype="multipart/form-data"
                 hx-target="#lista-documentos"
+                class="d-flex justify-content-between mb-3"
+                style="background-color: white"
                 >
     
                 {% csrf_token %}    
-                <input type="file" id="arquivo" name="arquivo">
-                <button type="submit">Enviar</button>
+
+                <form hx-post="{% url 'upload-documento' object.pk %}" 
+                hx-encoding="multipart/form-data"
+                enctype="multipart/form-data"
+                hx-target="#lista-documentos"
+                >
+    
+                {% csrf_token %}    
+                <input type="file" class="btn" id="arquivo" name="arquivo">
+                <button type="submit" class="btn">Enviar</button>
+
             </form>
     
             <div id="lista-documentos">

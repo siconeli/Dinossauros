@@ -1,4 +1,57 @@
-/*  Modal de Delete */
+:root {
+    --input-padding-y: 0.375rem; /* valor do padding vertical */
+    --input-padding-x: 0.75rem;  /* valor do padding horizontal */
+    --input-font-weight: 400;    /* peso da fonte */
+    --input-color: #495057;      /* cor do texto */
+    --input-border-color: #ced4da; /* cor da borda */
+    --tertiary-bg: #f8f9fa;      /* cor de fundo terciária */
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .input-group .form-control[type="file"] {
+    display: block;
+    width: 100%;
+    padding: var(--input-padding-y) var(--input-padding-x);
+    font-weight: var(--input-font-weight);
+    color: var(--input-color);
+    background-color: var(--tertiary-bg);
+    border: 1px solid var(--input-border-color);
+    border-right: 0;
+    border-radius: 0.25rem 0 0 0.25rem;
+  }
+  
+  .input-group .btn {
+    padding: var(--input-padding-y) var(--input-padding-x);
+    font-weight: var(--input-font-weight);
+    color: var(--input-color);
+    background-color: transparent;
+    border: 1px solid var(--input-border-color);
+    border-radius: 0 0.25rem 0.25rem 0;
+    cursor: pointer;
+  }
+  
+  .input-group .btn.btn-outline-secondary {
+    color: var(--input-color);
+    border-color: var(--input-border-color);
+  }
+
+  
+
+
+
+
+
+
+
+  
+
+
+Modal de Delete
 .modal {
     display: none; /* Escondido por padrão */
     position: fixed;
@@ -34,3 +87,5 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+

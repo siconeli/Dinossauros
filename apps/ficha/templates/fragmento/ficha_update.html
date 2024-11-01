@@ -36,10 +36,10 @@
         <input type="checkbox" id="remedio_continuo" name="remedio_continuo" disabled class="input-update-ficha" {% if ficha.remedio_continuo %} checked {% endif %}>
 
         <label for="obs">Observações</label>
-        <input type="text" id="obs" name="obs" class="input-update-ficha" disabled value="{{ ficha.obs }}">
+        <input type="text" id="obs" name="obs" class="form-control form-control-sm input-update-ficha" disabled value="{{ ficha.obs }}">
         
-        <button type="button" onclick="removeDisabled('input-update-ficha', 'salvar_ficha')">Editar</button>
-        <button type="submit" id="salvar_ficha" style="display: none;">Salvar</button>
+        <button type="button" class="btn" onclick="removeDisabled('input-update-ficha', 'salvar_ficha')">Editar</button>
+        <button type="submit" class="btn" id="salvar_ficha" style="display: none;">Salvar</button>
     </form>
 {% endblock %}
 

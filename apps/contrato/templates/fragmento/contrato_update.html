@@ -1,11 +1,10 @@
 {% load static %}
 
 {% block conteudo %}
-    <section>
-        <h1>Contrato</h1>
-        <form id="contrato-update-form" hx-post="{% url 'contrato-update' contrato.pk %}" hx-target="#contrato-form" hx-swap="innerHTML" onsubmit="return removerMaskMoney('valor');">
-            {% csrf_token %}
+    <form id="contrato-update-form" hx-post="{% url 'contrato-update' contrato.pk %}" hx-target="#contrato-form" hx-swap="innerHTML" onsubmit="return removerMaskMoney('valor');">
+        {% csrf_token %}
 
+        <h1>Contrato</h1>
             <div>
                 {% for field in form %}
                     {% if field.errors %}
@@ -15,10 +14,10 @@
             </div>
 
             <label for="valor">Valor</label> 
-            <input type="text" id="valor" name="valor" class="input-update-contrato" maxlength="17" disabled value="{{ contrato.valor }}" required>
+            <input type="text" id="valor" name="valor" class="form-control form-control-sm input-update-contrato" maxlength="17" disabled value="{{ contrato.valor }}" required>
 
             <label for="periodo">Período</label>
-            <select name="periodo" id="periodo" class="input-update-contrato" disabled>
+            <select name="periodo" id="periodo" class="form-control form-control-sm input-update-contrato" disabled>
                 {% for value, display in contrato.periodo_choices %}
                     <option value="{{ value }}" {% if value == contrato.periodo %}selected{% endif %}>
                         {{ display }}
@@ -27,15 +26,16 @@
             </select>
 
             <label for="data_inicio">Início</label>
-            <input type="date" id="data_inicio" name="data_inicio" class="input-update-contrato" disabled value="{{ contrato.data_inicio|date:'Y-m-d' }}" required>
+            <input type="date" id="data_inicio" name="data_inicio" class="form-control form-control-sm input-update-contrato" disabled value="{{ contrato.data_inicio|date:'Y-m-d' }}" required>
 
             <label for="data_fim">Fim</label>
-            <input type="date" id="data_fim" name="data_fim" class="input-update-contrato" disabled value="{{ contrato.data_fim|date:'Y-m-d' }}" required>
+            <input type="date" id="data_fim" name="data_fim" class="form-control form-control-sm input-update-contrato" disabled value="{{ contrato.data_fim|date:'Y-m-d' }}" required>
 
-            <button type="button" onclick="removeDisabled('input-update-contrato', 'salvar_contrato')">Editar</button>
-            <button type="submit" id="salvar_contrato" style="display: none;">Salvar</button>
+            <button type="button" class="btn" onclick="removeDisabled('input-update-contrato', 'salvar_contrato')">Editar</button>
+            <button type="submit" class="btn" id="salvar_contrato" style="display: none;">Salvar</button>
         </form>
-    </section>
+
+
 {% endblock %}
 
 {% block scripts %}
