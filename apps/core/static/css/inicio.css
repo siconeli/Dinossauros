@@ -52,3 +52,15 @@ main {
     background-color: #03a8e8; /* Cor ao passar o mouse */
     color: white; /* Cor do texto ao passar o mouse */
 }
+
+#li-menu-lateral {
+    transition: color 0.3s ease; /* Transição suave */
+    color: #777474;
+}
+
+#li-menu-lateral:hover {
+    background-color: #bcbcbd3a; /* Altere a cor quando o mouse estiver sobre o item */
+    cursor: pointer; /* Alterar o cursor para indicar interatividade */
+    border-radius: 5px;
+    
+}
