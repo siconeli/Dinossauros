@@ -63,3 +63,11 @@ main {
     cursor: pointer; /* Alterar o cursor para indicar interatividade */
     border-radius: 5px;
 }
+
+ /* Estilo para inputs desativados */
+ input:disabled {
+    background-color: #f80000; /* Cor de fundo mais clara */
+    color: #555; /* Cor do texto */
+    cursor: not-allowed; /* Cursor indicando que o input não é clicável */
+    opacity: 1; /* Evitar o efeito de opacidade padrão */
+}
