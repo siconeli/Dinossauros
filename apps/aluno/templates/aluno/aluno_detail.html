@@ -31,6 +31,7 @@
         <h5 class="mb-2">Responsáveis</h5> 
         <div class="container-fluid py-4 border mb-3" style="background-color: whitesmoke;">
             <a href="{% url 'resp-create' object.pk %}"><button class="btn">Cadastrar</button></a>
+            <a href="/media/lgpd/AUTORIZACAO_LGPD.pdf" download><button class="btn">LGPD</button></a>
     
             <table class="table table-hover mt-3" id="listar-responsaveis">
                 <thead>
@@ -141,7 +142,7 @@
                 "pageLength": 4,
                 "language": {
                     "decimal": "",
-                    "emptyTable": "Nenhum aluno filtrado",
+                    "emptyTable": "Nenhum responsável",
                     // "info": "Filtrados: _TOTAL_ ",
                     "infoEmpty": "Ativos: 0",
                     "infoFiltered": "",
@@ -151,7 +152,7 @@
                     "loadingRecords": "A carregar dados...",
                     "processing": "A processar...",
                     // "search": "Buscar:",
-                    "zeroRecords": "Nenhum processo filtrado",
+                    "zeroRecords": "Nenhum responsável",
                     "paginate": {
                         "first": "Primeiro",
                         "last": "Último",
