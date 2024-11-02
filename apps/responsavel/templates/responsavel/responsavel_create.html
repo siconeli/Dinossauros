@@ -13,6 +13,7 @@
             {% endif %}
         {% endfor %}
         <form  method="post">
+            {% csrf_token %}
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" value="{{ form.nome.value|default_if_none:'' }}" maxlength="50" required>
 
