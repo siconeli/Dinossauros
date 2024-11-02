@@ -73,7 +73,7 @@
                                             <h5 class="modal-title fs-5" id="staticBackdropLabel-{{ resp.pk }}">Confirmar exclusão</h5>
                                         </div>
                                         <div class="modal-body">                                        
-                                            Confirme se realmente deseja uma exclusão permanente do responsável <b>{{ resp.nome }}</b>.
+                                            Confirme se realmente deseja a exclusão permanente do responsável <b>{{ resp.nome }}</b>.
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -100,9 +100,11 @@
                 hx-encoding="multipart/form-data"
                 enctype="multipart/form-data"
                 hx-target="#lista-documentos"
+                hx-swap="innerHTML" 
                 class="d-flex justify-content-between mb-3"
                 style="background-color: white"
-                >
+                id="form-upload"
+                > <!-- Usar o  hx-swap="innerHTML" para Atualizar o conteúdo de um elemento sem remover ou recriar o próprio elemento, evitando de desconfigurar o data-table-->
                 {% csrf_token %}    
 
           
@@ -122,7 +124,7 @@
 
     <script src="https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js"></script>
     <script>
-        $(document).ready(function(){
+        document.addEventListener('DOMContentLoaded', function() {
             $('#listar-responsaveis').DataTable({
                 responsive: true,
                 "ordering": true, // Remove as opções das colunas de ordenar a tabela.
@@ -139,7 +141,7 @@
                     "infoFiltered": "",
                     "infoPostFix": "",
                     "thousands": ",",
-                    // "lengthMenu": "Mostrar _MENU_ alunos",
+                    "lengthMenu": "Mostrar _MENU_ alunos",
                     "loadingRecords": "A carregar dados...",
                     "processing": "A processar...",
                     // "search": "Buscar:",
@@ -182,10 +184,4 @@
             });            
         });
     </script>
-
-    <script>
-    //     document.addEventListener('DOMContentLoaded', function () {  
-           
-    //     });
-    // </script>
 {% endblock %}

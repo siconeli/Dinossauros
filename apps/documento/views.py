@@ -20,7 +20,7 @@ class UploadDocumento(LoginRequiredMixin, View):
 
             documentos = Documento.objects.filter(aluno_id=pk)
             for doc in documentos:
-                doc.nome = str(doc.arquivo)[11:]
+                doc.nome = str(doc.arquivo)[11:] # Para enviar o nome do documento formatado para o template.
 
             return render(request, 'fragmento/lista_documentos.html', {'documentos': documentos})
         except Exception as e:

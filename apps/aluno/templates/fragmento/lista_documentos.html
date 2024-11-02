@@ -15,20 +15,34 @@
                     <td>{{ documento.nome }}</td>
                     <td><a href="{{ documento.arquivo.url }}" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/download.png' %}" alt=""></a></td>
                     <td>
-                        <button class="btn openModal">Excluir</button>
-                    
-                        <!-- Modal -->
-                        <div class="modalDelete modal">
+                        <!-- Botão para abrir o modal, com um ID único -->
+                        <a id="openModal-doc-{{ documento.pk }}" data-documento-id="{{ documento.pk }}" style="color: red; cursor: pointer;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-fill-gear" viewBox="0 0 16 16">
+                            <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708"/>
+                            </svg>
+                        </a>  
+
+                        <!-- Modal com um ID único -->
+                        <div class="modal fade" id="modalDelete-doc-{{ documento.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel-{{ documento.pk }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <header>
-                                    <h2>Exclusão de Documento</h2>
-                                </header>
-                                <p>Tem certeza que deseja excluir o Documento?</p>
-                                <button type="button" class="btn btn-excluir">Excluir</button>
+                                <div class="modal-header">
+                                    <h5 class="modal-title fs-5" id="staticBackdropLabel-{{ documento.pk }}">Confirmar exclusão</h5>
+                                </div>
+                                <div class="modal-body">                                        
+                                    Confirme se realmente deseja a exclusão permanente do documento <b>{{ documento.nome }}</b>.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                    <!-- Botão de confirmação com ID único -->
+                                    <button type="button" class="btn btn-excluir-doc" style="background-color: red; color: white;" data-documento-id="{{ documento.pk }}">Confirmar</button>
+                                </div>
+                            </div>
                             </div>
                         </div>
-                        <form class="formDelete" method="post" action="{% url 'delete-documento' documento.pk  %}">
+
+                        <form id="formDelete-doc-{{documento.pk}}" method="post" action="{% url 'delete-documento' documento.pk  %}">
                             {% csrf_token %}
                         </form>
                     </td>
@@ -41,39 +55,6 @@
 {% block script %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            function attachModalEvents() {
-                // Seleciona todos os botões de abrir modal, botões de fechar modal, botões de excluir e formulários
-                const openModalButtons = document.querySelectorAll(".openModal");
-                const modals = document.querySelectorAll(".modalDelete");
-                const closeModalButtons = document.querySelectorAll(".close");
-                const deleteButtons = document.querySelectorAll(".btn-excluir");
-                const forms = document.querySelectorAll(".formDelete");
-
-                // Adiciona o evento de clique para abrir o modal correspondente
-                openModalButtons.forEach((button, index) => {
-                    button.onclick = function() {
-                        modals[index].style.display = "block";
-                    };
-                });
-
-                // Adiciona o evento de clique para fechar o modal correspondente
-                closeModalButtons.forEach((button, index) => {
-                    button.onclick = function() {
-                        modals[index].style.display = "none";
-                    };
-                });
-
-                // Adiciona o evento de clique para submeter o formulário de exclusão correspondente
-                deleteButtons.forEach((button, index) => {
-                    button.onclick = function() {
-                        forms[index].submit();
-                    };
-                });
-            }
-
-            // Inicializa os eventos no carregamento da página
-            attachModalEvents();
-
             function initializeDataTable() {
                 $('#listar-documentos').DataTable({
                     destroy: true, // Permite reinicializar o DataTable
@@ -92,7 +73,7 @@
                         "infoFiltered": "",
                         "infoPostFix": "",
                         "thousands": ",",
-                        // "lengthMenu": "Mostrar _MENU_ alunos",
+                        "lengthMenu": "Mostrar _MENU_ alunos",
                         "loadingRecords": "A carregar dados...",
                         "processing": "A processar...",
                         // "search": "Buscar:",
@@ -113,10 +94,11 @@
 
             $('.dataTables_length').hide(); // Remove do data-table -> "lengthMenu": "Mostrar _MENU_ alunos", 
 
-            // Inicializa os eventos do modal e o DataTables ao carregar a página
+            // Inicializa os DataTables ao carregar a página
             initializeDataTable();
 
-            // Reanexa os eventos e reinicializa o DataTables após o HTMX atualizar o DOM
+            
+            // Atualizar o data-table - Reanexa os eventos e reinicializa o DataTables após o HTMX atualizar o DOM
             document.body.addEventListener('htmx:afterSwap', function () {
                 // Destroi o DataTables se já estiver inicializado
                 if ($.fn.DataTable.isDataTable('#listar-documentos')) {
@@ -129,6 +111,63 @@
                     attachModalEvents();
                     initializeDataTable();
                 }, 100); // Ajuste o tempo se necessário
+            });
+
+            // Reinicializar Scripts: Usar o evento htmx:afterSwap para reinicializar suas funções JavaScript sempre que o conteúdo do DOM for atualizado.
+            document.body.addEventListener('htmx:afterSwap', function(event) {
+                 // Abrir modal de Delete Documento e enviar formulário - Seleciona todos os botões de abrir modal e os configura individualmente
+                document.querySelectorAll('[id^="openModal-doc-"]').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const documentoId = button.getAttribute('data-documento-id');
+                        const modalElement = document.getElementById(`modalDelete-doc-${documentoId}`);
+                        
+                        // Inicializa e mostra o modal específico
+                        const modalInstance = new bootstrap.Modal(modalElement, {
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        modalInstance.show();
+
+                        // Configura o botão de exclusão dentro do modal
+                        const deleteButton = modalElement.querySelector('.btn-excluir-doc');
+                        deleteButton.onclick = function () {
+                            const formDelete = document.getElementById(`formDelete-doc-${documentoId}`);
+                            formDelete.submit();
+                        };
+                    });
+                });  
+            });      
+               
+            // Abrir modal de Delete Documento e enviar formulário - Seleciona todos os botões de abrir modal e os configura individualmente
+            document.querySelectorAll('[id^="openModal-doc-"]').forEach(button => {
+                button.addEventListener('click', function () {
+                    const documentoId = button.getAttribute('data-documento-id');
+                    const modalElement = document.getElementById(`modalDelete-doc-${documentoId}`);
+                    
+                    // Inicializa e mostra o modal específico
+                    const modalInstance = new bootstrap.Modal(modalElement, {
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    modalInstance.show();
+
+                    // Configura o botão de exclusão dentro do modal
+                    const deleteButton = modalElement.querySelector('.btn-excluir-doc');
+                    deleteButton.onclick = function () {
+                        const formDelete = document.getElementById(`formDelete-doc-${documentoId}`);
+                        formDelete.submit();
+                    };
+                });
+            });  
+
+            // Limpar o nome do arquivo após o formulário de upload ser submetido.
+            const form = document.getElementById('form-upload'); // Selecione o formulário específico se houver vários
+            const fileInput = document.getElementById('arquivo');
+
+            form.addEventListener('submit', function() {
+                setTimeout(() => {
+                    fileInput.value = ""; // Limpa o nome do arquivo no campo
+                }, 100); // Timeout para garantir que o envio termine antes de limpar
             });
         });
     </script>
