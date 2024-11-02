@@ -1,40 +1,42 @@
 {% load static %}
 
-<table class="table table-hover mt-1" id="listar-documentos">
-    <thead>
-        <tr class="table">
-            <th class="p-1" style="background-color: #03a8e8; color: white;">Nome</th>
-            <th class="p-1" style="background-color: #03a8e8; color: white;">Download</th>
-            <th class="p-1" style="background-color: #03a8e8; color: white;"></th>        
-        </tr>
-    </thead>
-    <tbody>
-        {% for documento in documentos %}
-            <tr>
-                <td>{{ documento.nome }}</td>
-                <td><a href="{{ documento.arquivo.url }}" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/download.png' %}" alt=""></a></td>
-                <td>
-                    <button class="btn openModal">Excluir</button>
-                
-                    <!-- Modal -->
-                    <div class="modalDelete modal">
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <header>
-                                <h2>Exclusão de Documento</h2>
-                            </header>
-                            <p>Tem certeza que deseja excluir o Documento?</p>
-                            <button type="button" class="btn btn-excluir">Excluir</button>
-                        </div>
-                    </div>
-                    <form class="formDelete" method="post" action="{% url 'delete-documento' documento.pk  %}">
-                        {% csrf_token %}
-                    </form>
-                </td>
+{% block conteudo %}
+    <table class="table table-hover mt-1" id="listar-documentos">
+        <thead>
+            <tr class="table">
+                <th class="p-1" style="background-color: #03a8e8; color: white;">Nome</th>
+                <th class="p-1" style="background-color: #03a8e8; color: white;">Download</th>
+                <th class="p-1" style="background-color: #03a8e8; color: white;"></th>        
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for documento in documentos %}
+                <tr>
+                    <td>{{ documento.nome }}</td>
+                    <td><a href="{{ documento.arquivo.url }}" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/download.png' %}" alt=""></a></td>
+                    <td>
+                        <button class="btn openModal">Excluir</button>
+                    
+                        <!-- Modal -->
+                        <div class="modalDelete modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <header>
+                                    <h2>Exclusão de Documento</h2>
+                                </header>
+                                <p>Tem certeza que deseja excluir o Documento?</p>
+                                <button type="button" class="btn btn-excluir">Excluir</button>
+                            </div>
+                        </div>
+                        <form class="formDelete" method="post" action="{% url 'delete-documento' documento.pk  %}">
+                            {% csrf_token %}
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
 
 {% block script %}
     <script>
@@ -72,47 +74,62 @@
             // Inicializa os eventos no carregamento da página
             attachModalEvents();
 
-            // Reanexa os eventos após HTMX atualizar o DOM
-            document.body.addEventListener('htmx:afterSwap', function () {
-                attachModalEvents();
-            });
-
-            $('#listar-documentos').DataTable({
-                responsive: true,
-                "ordering": true, // Remove as opções das colunas de ordenar a tabela.
-                "searching": false, // Remove o campo input de busca "search"
-                "info": false,
-                // "bSort": false,
-                "aaSorting": [],
-                "pageLength": 4,
-                "language": {
-                    "decimal": "",
-                    "emptyTable": "Nenhum documento",
-                    // "info": "Filtrados: _TOTAL_ ",
-                    "infoEmpty": "Ativos: 0",
-                    "infoFiltered": "",
-                    "infoPostFix": "",
-                    "thousands": ",",
-                    // "lengthMenu": "Mostrar _MENU_ alunos",
-                    "loadingRecords": "A carregar dados...",
-                    "processing": "A processar...",
-                    // "search": "Buscar:",
-                    "zeroRecords": "Nenhum documento",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    },
-                    "aria": {
-                        "sortAscending": ": ordem crescente",
-                        "sortDescending": ": ordem decrescente"
+            function initializeDataTable() {
+                $('#listar-documentos').DataTable({
+                    destroy: true, // Permite reinicializar o DataTable
+                    responsive: true,
+                    "ordering": true, // Remove as opções das colunas de ordenar a tabela.
+                    "searching": false, // Remove o campo input de busca "search"
+                    "info": false,
+                    // "bSort": false,
+                    "aaSorting": [],
+                    "pageLength": 4,
+                    "language": {
+                        "decimal": "",
+                        "emptyTable": "Nenhum documento",
+                        // "info": "Filtrados: _TOTAL_ ",
+                        "infoEmpty": "Ativos: 0",
+                        "infoFiltered": "",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        // "lengthMenu": "Mostrar _MENU_ alunos",
+                        "loadingRecords": "A carregar dados...",
+                        "processing": "A processar...",
+                        // "search": "Buscar:",
+                        "zeroRecords": "Nenhum documento",
+                        "paginate": {
+                            "first": "Primeiro",
+                            "last": "Último",
+                            "next": "Próximo",
+                            "previous": "Anterior"
+                        },
+                        "aria": {
+                            "sortAscending": ": ordem crescente",
+                            "sortDescending": ": ordem decrescente"
+                        }
                     }
-                }
-            });
+                });
+            }
 
             $('.dataTables_length').hide(); // Remove do data-table -> "lengthMenu": "Mostrar _MENU_ alunos", 
 
+            // Inicializa os eventos do modal e o DataTables ao carregar a página
+            initializeDataTable();
+
+            // Reanexa os eventos e reinicializa o DataTables após o HTMX atualizar o DOM
+            document.body.addEventListener('htmx:afterSwap', function () {
+                // Destroi o DataTables se já estiver inicializado
+                if ($.fn.DataTable.isDataTable('#listar-documentos')) {
+                    $('#listar-documentos').DataTable().destroy();
+                    $('#listar-documentos').empty(); // Limpa o conteúdo da tabela para evitar duplicação de linhas
+                }
+                
+                // Adiciona um timeout para garantir que o DOM esteja completamente carregado antes de reinicializar
+                setTimeout(() => {
+                    attachModalEvents();
+                    initializeDataTable();
+                }, 100); // Ajuste o tempo se necessário
             });
+        });
     </script>
 {% endblock %}

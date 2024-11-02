@@ -19,6 +19,8 @@ class UploadDocumento(LoginRequiredMixin, View):
             documento.save()
 
             documentos = Documento.objects.filter(aluno_id=pk)
+            for doc in documentos:
+                doc.nome = str(doc.arquivo)[11:]
 
             return render(request, 'fragmento/lista_documentos.html', {'documentos': documentos})
         except Exception as e:
