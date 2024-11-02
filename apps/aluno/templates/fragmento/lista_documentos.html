@@ -96,47 +96,6 @@
 
             // Inicializa os DataTables ao carregar a página
             initializeDataTable();
-
-            
-            // Atualizar o data-table - Reanexa os eventos e reinicializa o DataTables após o HTMX atualizar o DOM
-            document.body.addEventListener('htmx:afterSwap', function () {
-                // Destroi o DataTables se já estiver inicializado
-                if ($.fn.DataTable.isDataTable('#listar-documentos')) {
-                    $('#listar-documentos').DataTable().destroy();
-                    $('#listar-documentos').empty(); // Limpa o conteúdo da tabela para evitar duplicação de linhas
-                }
-                
-                // Adiciona um timeout para garantir que o DOM esteja completamente carregado antes de reinicializar
-                setTimeout(() => {
-                    attachModalEvents();
-                    initializeDataTable();
-                }, 100); // Ajuste o tempo se necessário
-            });
-
-            // Reinicializar Scripts: Usar o evento htmx:afterSwap para reinicializar suas funções JavaScript sempre que o conteúdo do DOM for atualizado.
-            document.body.addEventListener('htmx:afterSwap', function(event) {
-                 // Abrir modal de Delete Documento e enviar formulário - Seleciona todos os botões de abrir modal e os configura individualmente
-                document.querySelectorAll('[id^="openModal-doc-"]').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const documentoId = button.getAttribute('data-documento-id');
-                        const modalElement = document.getElementById(`modalDelete-doc-${documentoId}`);
-                        
-                        // Inicializa e mostra o modal específico
-                        const modalInstance = new bootstrap.Modal(modalElement, {
-                            backdrop: 'static',
-                            keyboard: false
-                        });
-                        modalInstance.show();
-
-                        // Configura o botão de exclusão dentro do modal
-                        const deleteButton = modalElement.querySelector('.btn-excluir-doc');
-                        deleteButton.onclick = function () {
-                            const formDelete = document.getElementById(`formDelete-doc-${documentoId}`);
-                            formDelete.submit();
-                        };
-                    });
-                });  
-            });      
                
             // Abrir modal de Delete Documento e enviar formulário - Seleciona todos os botões de abrir modal e os configura individualmente
             document.querySelectorAll('[id^="openModal-doc-"]').forEach(button => {
@@ -169,6 +128,33 @@
                     fileInput.value = ""; // Limpa o nome do arquivo no campo
                 }, 100); // Timeout para garantir que o envio termine antes de limpar
             });
+
+            // QUANDO ALGUMA FUNÇÃO JS PARAR DE FUNCIONAR APÓS O ENVIO DE UM FORM COM HTMX, INSERIR A CÓPIA DA FUNÇÃO AQUI DENTRO.
+            document.body.addEventListener('htmx:afterSwap', function(event) {
+                    // Abrir modal de Delete Documento e enviar formulário - Seleciona todos os botões de abrir modal e os configura individualmente
+                document.querySelectorAll('[id^="openModal-doc-"]').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const documentoId = button.getAttribute('data-documento-id');
+                        const modalElement = document.getElementById(`modalDelete-doc-${documentoId}`);
+                        
+                        // Inicializa e mostra o modal específico
+                        const modalInstance = new bootstrap.Modal(modalElement, {
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        modalInstance.show();
+
+                        // Configura o botão de exclusão dentro do modal
+                        const deleteButton = modalElement.querySelector('.btn-excluir-doc');
+                        deleteButton.onclick = function () {
+                            const formDelete = document.getElementById(`formDelete-doc-${documentoId}`);
+                            formDelete.submit();
+                        };
+                    });
+                });  
+
+                initializeDataTable();
+            });      
         });
     </script>
 {% endblock %}
