@@ -44,6 +44,7 @@
                         <th class="p-1" style="background-color: #03a8e8; color: white;">Sexo</th>                      
                         <th class="p-1" style="background-color: #03a8e8; color: white;">Parentesco</th>  
                         <th class="p-1" style="background-color: #03a8e8; color: white;"></th>           
+                        <th class="p-1" style="background-color: #03a8e8; color: white;"></th>           
                     </tr>
                 </thead>
                 <tbody>
@@ -56,6 +57,9 @@
                             <td>{{ resp.profissao|default_if_none:'' }}</td>
                             <td>{{ resp.sexo }}</td>
                             <td>{{ resp.parentesco }}</td>
+                            <td>
+                                <a href="{% url 'resp-update' resp.pk %}">Editar</a>
+                            </td>
                             <td>
                                 <!-- Botão para abrir o modal, com um ID único -->
                                 <a id="openModal-{{ resp.pk }}" data-resp-id="{{ resp.pk }}" style="color: red; cursor: pointer;">

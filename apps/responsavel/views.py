@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 
 from .models import Aluno
 from apps.formWizard.forms import ResponsavelForm
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from .models import Responsavel
@@ -44,6 +44,31 @@ class ResponsavelCreate(LoginRequiredMixin, CreateView):
     def get_success_url(self) -> str:
         try:
             return reverse('aluno-detail', args=[self.kwargs.get('pk')])
+        except Exception as e:
+            print(e)
+
+class ResponsavelUpdate(LoginRequiredMixin, UpdateView):
+    model = Responsavel
+    template_name = 'responsavel/responsavel_create.html'
+    form_class = ResponsavelForm
+
+    def cancelar(self, aluno_pk):
+        try:
+            return reverse('aluno-detail', args=[aluno_pk])
+        except Exception as e:
+            print(e)
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        try:
+            context = super().get_context_data(**kwargs)
+            context['cancelar'] = self.cancelar(self.object.aluno_id)
+            return context
+        except Exception as e:
+            print(e)
+
+    def get_success_url(self) -> str:
+        try:
+            return reverse('aluno-detail', args=[self.object.aluno_id])
         except Exception as e:
             print(e)
 
