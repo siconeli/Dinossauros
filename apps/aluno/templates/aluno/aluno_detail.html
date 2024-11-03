@@ -53,7 +53,7 @@
                             <td>{{ resp.cpf }}</td>
                             <td>{{ resp.telefone }}</td>
                             <td>{{ resp.endereco }}</td>
-                            <td>{{ resp.profissao }}</td>
+                            <td>{{ resp.profissao|default_if_none:'' }}</td>
                             <td>{{ resp.sexo }}</td>
                             <td>{{ resp.parentesco }}</td>
                             <td>

@@ -1,3 +1,5 @@
+{% extends 'core/inicio.html' %}
+
 {% load static %}
 
 {% block conteudo %}
@@ -5,44 +7,93 @@
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Novo Responsável</h1>
         </div>
-        {% for field in form %}
-            {% if field.errors %}
-                <div class="alert alert-danger" id="error" role="alert">
-                    {{ field.errors|join:", " }}
-                </div>
-            {% endif %}
-        {% endfor %}
-        <form  method="post">
+        {% if form.errors %}
+            <div class="alert alert-danger" id="error" role="alert">
+                Existe um ou mais campos inválidos no formulário!
+            </div>
+        {% endif %}
+        <form  method="post" novalidate>
             {% csrf_token %}
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nome" value="{{ form.nome.value|default_if_none:'' }}" maxlength="50" required>
-
-            <label for="cpf">CPF</label>
-            <input type="text" id="cpf" name="cpf" value="{{ form.cpf.value|default_if_none:'' }}" maxlength="11" required>
-
-            <label for="telefone">Celular</label>
-            <input type="text" id="telefone" name="telefone" value="{{ form.telefone.value|default_if_none:'' }}" maxlength="15" required>
-
-            <label for="endereco">Endereço</label>
-            <input type="text" id="endereco" name="endereco" value="{{ form.endereco.value|default_if_none:'' }}" maxlength="100" required>
-
-            <label for="profissao">Profissão</label>
-            <input type="text" id="profissao" name="profissao" value="{{ form.profissao.value|default_if_none:'' }}" maxlength="50">
-
-            <label for="sexo">Sexo</label>
-            {{ form.sexo }}
-
-            <label for="parentesco">Parentesco</label>
-            {{ form.parentesco }}
-
-            <button type="submit">Cadastrar</button>
+            <div class="container-fluid py-2 border mb-2" style="background-color: whitesmoke;">
+                <div class="row mb-2">
+                    <div class="col-8">
+                        <label for="nome">Nome</label>
+                         {{ form.nome }}
+                        <div class="text-danger">
+                            {% for error in form.nome.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="cpf">CPF</label>
+                        {{ form.cpf }}
+                        <div class="text-danger">
+                            {% for error in form.cpf.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="telefone">Celular</label>
+                        {{ form.telefone }}
+                        <div class="text-danger">
+                            {% for error in form.telefone.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <label for="endereco">Endereço</label>
+                        {{ form.endereco }}
+                        <div class="text-danger">
+                            {% for error in form.endereco.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="profissao">Profissão</label>
+                        {{ form.profissao }}
+                         <!-- {{ form.profissao }} -->
+                        <div class="text-danger">
+                            {% for error in form.profissao.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="sexo">Sexo</label>
+                        {{ form.sexo }}
+                        <div class="text-danger">
+                            {% for error in form.sexo.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="parentesco">Parentesco</label>
+                        {{ form.parentesco }}
+                        <div class="text-danger">
+                            {% for error in form.parentesco.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn">Cadastrar</button>
+            <a href="{{ cancelar }}"><button type="button" class="btn">Cancelar</button></a>
         </form>
-        <a href="{{ cancelar }}"><button type="button">Cancelar</button></a>
     </main>
 {% endblock %}
 
 {% block scripts %}
-    <!-- Importação para uso de mask no arquivo aluno.js -->
+    <!-- Importação para uso de mask -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
