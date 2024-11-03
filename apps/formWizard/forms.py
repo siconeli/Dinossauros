@@ -47,7 +47,7 @@ class ResponsavelForm(forms.ModelForm):
 
     def clean_cpf(self): # Verificar cpf existente para não permitir duplicidade.
         cpf = self.cleaned_data.get('cpf')
-        if Responsavel.objects.filter(cpf=cpf).exists():
+        if Responsavel.objects.filter(cpf=cpf).exclude(id=self.instance.id).exists():
             raise forms.ValidationError('CPF já cadastrado.')
         return cpf  
 

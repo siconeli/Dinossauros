@@ -37,6 +37,8 @@ class ResponsavelCreate(LoginRequiredMixin, CreateView):
             context = super().get_context_data(**kwargs)
             context['formulario'] = ResponsavelForm()
             context['cancelar'] = self.cancelar(self.kwargs.get('pk'))
+            context['titulo'] = 'Cadastrar Responsável'
+            context['submit'] = 'Cadastrar'
             return context
         except Exception as e:
             print(e)
@@ -62,6 +64,8 @@ class ResponsavelUpdate(LoginRequiredMixin, UpdateView):
         try:
             context = super().get_context_data(**kwargs)
             context['cancelar'] = self.cancelar(self.object.aluno_id)
+            context['titulo'] = 'Alterar Responsável'
+            context['submit'] = 'Salvar'
             return context
         except Exception as e:
             print(e)
