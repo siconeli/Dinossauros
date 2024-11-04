@@ -33,7 +33,7 @@ main {
 .pagination {
     display: flex;
     justify-content: flex-end; /* Alinha a paginação à direita */
-    margin-bottom: 25px;
+    margin-bottom: 2;
 }
 
 .pagination .paginate_button.page-item.active a {
@@ -71,4 +71,9 @@ main {
     color: #555; /* Cor do texto */
     cursor: not-allowed; /* Cursor indicando que o input não é clicável */
     opacity: 1; /* Evitar o efeito de opacidade padrão */
+}
+
+.btn {
+    background-color: #c7c6c6;
+    color: white;
 }

@@ -101,21 +101,23 @@
           <table class="table table-hover" id="listar-alunos">
             <thead>
                 <tr class="table" >
-                  <th class="p-1" style="background-color: #03a8e8; color: white;">Status</th>
-                  <th class="p-1" style="background-color: #03a8e8; color: white;">Nome</th>      
-                  <th class="p-1" style="background-color: #03a8e8; color: white;"></th>   
-                  <th class="p-1" style="background-color: #03a8e8; color: white;"></th>   
+                  <th class="p-1" style="background-color: #03a8e8; color: white; text-align: center;">Status</th>
+                  <th class="p-1" style="background-color: #03a8e8; color: white; text-align: center;">Nome</th>      
+                  <th class="p-1" style="background-color: #03a8e8; color: white; text-align: center;">CPF</th>   
+                  <th class="p-1" style="background-color: #03a8e8; color: white;"></th> 
+                  <th class="p-1" style="background-color: #03a8e8; color: white;"></th> 
                 </tr>
             </thead>
             <tbody>
               {% for aluno in alunos %}
                 {% if aluno.ativo != 'Ativo' %}
-                  <tr class="p-1" style="background-color: rgba(255, 0, 0, 0.192);">
+                  <tr class="p-1" style="background-color: rgba(255, 0, 0, 0.192); text-align: center;">
                 {% else %}
-                  <tr class="p-1" style="background-color: #ffffff;">
+                  <tr class="p-1" style="background-color: #ffffff; text-align: center;">
                 {% endif%}
                   <td>{{ aluno.ativo }}</td>
-                  <td class="td-aluno-nome">{{ aluno.nome}}</td>
+                  <td class="td-aluno-nome" text-align: center;>{{ aluno.nome}}</td>
+                  <td style="text-align: center;">{{ aluno.cpf}}</td>
                   <td>
                     <a href="{% url 'aluno-detail' aluno.pk %}" style="color: #03a8e8;">
                       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-fill-up" viewBox="0 0 16 16">

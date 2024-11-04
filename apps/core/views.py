@@ -12,7 +12,7 @@ class InicioView(LoginRequiredMixin, TemplateView):
         nome_filtro = self.request.GET.get('nome_filtro')
 
         if nome_filtro:
-            aluno = Aluno.objects.filter(nome__icontains=nome_filtro).order_by('-pk', 'ativo')
+            aluno = Aluno.objects.filter(nome__icontains=nome_filtro).order_by('-ativo', '-pk')
 
             for a in aluno:
                 if a.ativo is True:
@@ -21,7 +21,7 @@ class InicioView(LoginRequiredMixin, TemplateView):
                     a.ativo = 'Inativo'
             context['alunos'] = aluno
         else:
-            aluno = Aluno.objects.all().order_by('-pk', 'ativo')
+            aluno = Aluno.objects.all().order_by('-ativo', '-pk')
 
             for a in aluno:
                 if a.ativo is True:
