@@ -29,9 +29,9 @@
         </div>
 
         <h5 class="mb-2">Responsáveis</h5> 
-        <div class="container-fluid py-4 border mb-3" style="background-color: whitesmoke;">
-            <a href="{% url 'resp-create' object.pk %}"><button class="btn">Cadastrar</button></a>
-            <a href="/media/lgpd/AUTORIZACAO_LGPD.pdf" download><button class="btn">LGPD</button></a>
+        <div class="container-fluid border mb-3" style="background-color: whitesmoke;">
+            <a href="{% url 'resp-create' object.pk %}"><button class="btn mt-4">Cadastrar</button></a>
+            <a href="/media/lgpd/AUTORIZACAO_LGPD.pdf" download><button class="btn mt-4">LGPD</button></a>
     
             <table class="table table-hover mt-3" id="listar-responsaveis">
                 <thead>
@@ -103,13 +103,13 @@
         </div>
 
         <h5 class="mb-2">Documentos</h5> 
-        <div class="container-fluid py-4 border" style="background-color: whitesmoke;">
+        <div class="container-fluid border" style="background-color: whitesmoke;">
             <form hx-post="{% url 'upload-documento' object.pk %}" 
                 hx-encoding="multipart/form-data"
                 enctype="multipart/form-data"
                 hx-target="#lista-documentos"
                 hx-swap="innerHTML" 
-                class="d-flex justify-content-between mb-3"
+                class="d-flex justify-content-between mb-3 mt-4"
                 style="background-color: white"
                 id="form-upload"
                 >

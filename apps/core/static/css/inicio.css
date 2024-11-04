@@ -33,6 +33,7 @@ main {
 .pagination {
     display: flex;
     justify-content: flex-end; /* Alinha a paginação à direita */
+    margin-bottom: 25px;
 }
 
 .pagination .paginate_button.page-item.active a {
