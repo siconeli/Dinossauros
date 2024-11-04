@@ -83,16 +83,14 @@
             if (cpf.length === 11) {
                 // Atualiza o valor do campo com o CPF sem máscara
                 cpfField.value = cpf;
-
-                // Envia o formulário via htmx
-                htmx.ajax('POST', '/seu-endpoint', {
-                    target: '#resultado',
-                    swap: 'innerHTML',
-                    values: { cpf: cpf }
-                });
             } else {
-                alert('Por favor, insira um CPF válido com 11 dígitos.');
+                console.log('Por favor, insira um CPF válido com 11 dígitos.');
             }
+        }
+
+        function removeDisabled(className, id) {
+            $('.' + className).removeAttr('disabled');
+            $('#' + id).css('display', 'inline');
         }
     </script>
 {% endblock %}

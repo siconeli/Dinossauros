@@ -6,12 +6,12 @@
             Existe um ou mais campos inválidos no formulário!
         </div>
     {% endif %}
-    <form id="contrato-update-form" hx-post="{% url 'contrato-update' contrato.pk %}" hx-target="#contrato-form" hx-swap="innerHTML" novalidate>
+    <form id="contrato-update-form" hx-post="{% url 'contrato-update' contrato.pk %}" hx-target="#contrato-form" hx-swap="innerHTML" novalidate onsubmit="removerMascaraValor(event)">
         {% csrf_token %}
         <div class="row">
             <div class="col">
                 <label for="valor">Valor</label> 
-                <input type="text" id="valor" name="valor" class="form-control form-control-sm input-update-contrato" maxlength="17" disabled value="{{ contrato.valor }}" required>
+                <input type="text" id="valor" name="valor" oninput="formatarValor(this)" class="form-control form-control-sm input-update-contrato" maxlength="17" disabled value="{{ contrato.valor }}" required>
                 <div class="text-danger">
                     {% for error in form.valor.errors %}
                         {{ error }}
@@ -67,51 +67,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 
     <script>
-        function applyMoneyMask() {
-            $('#valor').maskMoney({
-                prefix: 'R$ ', // Prefixo do valor
-                allowNegative: false, // Não permite valores negativos
-                thousands: '.', // Separador de milhares
-                decimal: ',', // Separador decimal
-                precision: 2, // Precisão (número de casas decimais)
-                affixesStay: true // Os símbolos prefixo/sufixo permanecem após editar
-            });
+        function formatarValor(valorField) {
+            // Remove tudo que não for dígito e formata para moeda
+            let valor = valorField.value.replace(/\D/g, '');
+            if (valor) {
+                valor = (valor / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            }
+            valorField.value = valor;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            applyMoneyMask(); // Aplica a máscara de dinheiro na inicialização
-        });
+        function removerMascaraValor(event) {
+            // Previne o envio padrão do formulário
+            event.preventDefault();
+
+            // Obtém o valor do campo Valor e remove a máscara
+            let valorField = document.getElementById('valor');
+            let valor = valorField.value.replace(/\D/g, ''); // Remove tudo que não é número
+
+            // Converte para formato decimal (ex: "55000" para "550")
+            valor = (parseFloat(valor) / 100).toFixed(2); // Agora o valor está em reais
+
+            // Atualiza o valor do campo com o valor em formato decimal
+            valorField.value = valor;
+        }
 
         function removeDisabled(className, id) {
             $('.' + className).removeAttr('disabled');
             $('#' + id).css('display', 'inline');
         }
-
-        // Aplica a máscara após a troca do conteúdo
-        document.body.addEventListener('htmx:afterSwap', function(event) {
-            setTimeout(applyMoneyMask, 50); // Aplica a máscara com um pequeno atraso
-        });
-
-        // Remover a máscara e garantir que o valor seja numérico no envio do formulário
-        $('#contrato-update-form').on('submit', function(event) {
-            let valorField = $('#valor'); // Seleciona o campo valor
-            let valorValue = valorField.val(); // Captura o valor atual
-            valorValue = valorValue.replace(/[^0-9]/g, ''); // Remove todos os caracteres não numéricos
-
-            if (valorValue.length > 0) {
-                valorValue = parseFloat(valorValue) / 100; // Divide por 100 para converter centavos em reais
-            } else {
-                valorValue = 0; // Define o valor como 0 se não for válido
-            }
-
-            valorField.val(valorValue); // Atualiza o valor do campo sem a máscara
-
-            // Envia o formulário após garantir que o valor está correto
-            setTimeout(() => {
-                this.submit(); // Envia o formulário com o valor atualizado
-            }, 50); 
-            
-            event.preventDefault(); // Evita o envio padrão do formulário
-        });
     </script>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
