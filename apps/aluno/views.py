@@ -49,6 +49,7 @@ class AlunoUpdate(LoginRequiredMixin, View):
             aluno = get_object_or_404(Aluno, id=pk)
             form = AlunoForm(request.POST, instance=aluno)
 
+
             if form.is_valid():
                 if form.cleaned_data.get('inativar'):
                     aluno = form.save(commit=False)

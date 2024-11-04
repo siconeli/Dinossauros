@@ -7,7 +7,7 @@
         </div>
     {% endif %}
     <div id="aluno-form">
-        <form id="aluno-update-form" hx-post="{% url 'aluno-update' aluno.pk %}" hx-target="#aluno-form" hx-swap="innerHTML" novalidate>
+        <form id="aluno-update-form" hx-post="{% url 'aluno-update' aluno.pk %}" hx-target="#aluno-form" hx-swap="innerHTML" novalidate onsubmit="removerMascaraCPF(event)">
             {% csrf_token %}        
             <div class="row">
                 <div class="col mb-3">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col">
                     <label for="cpf">CPF</label>
-                    <input type="text" id="cpf" name="cpf" disabled class="form-control form-control-sm input-update-aluno" value="{{ aluno.cpf }}" maxlength="14" required> <!-- Max length increased to accommodate mask -->
+                    <input type="text" id="cpf" name="cpf" oninput="formatarCPF(this)" disabled class="form-control form-control-sm input-update-aluno" value="{{ aluno.cpf }}" maxlength="14" required>
                     <div class="text-danger">
                         {% for error in form.cpf.errors %}
                             {{ error }}
@@ -52,47 +52,47 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+   <!-- Importação para uso de mask -->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-        function applyCpfMask() {
-            $('#cpf').mask('000.000.000-00', {reverse: true});
-        }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            applyCpfMask(); // Aplica a máscara de CPF na inicialização
-        });
-
-        function removeDisabled(className, id) {
-            $('.' + className).removeAttr('disabled');
-            $('#' + id).css('display', 'inline');
-        }
-
-        // Aplica a máscara após a troca do conteúdo
-        document.body.addEventListener('htmx:afterSwap', function(event) {
-            setTimeout(applyCpfMask, 50); // Aplica a máscara com um pequeno atraso
-        });
-
-        // Remover a máscara e truncar o CPF no envio do formulário
-        $('#aluno-update-form').on('submit', function(event) {
-            let cpfField = $('#cpf'); // Seleciona o campo CPF
-            let cpfValue = cpfField.val(); // Captura o valor atual
-            cpfValue = cpfValue.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
-
-            if (cpfValue.length > 11) {
-                cpfValue = cpfValue.slice(0, 11); // Garante que tenha no máximo 11 caracteres
-            }
-
-            cpfField.val(cpfValue); // Atualiza o valor do campo sem a máscara
-
-            // Envia o formulário após garantir que o valor está correto
-            // Utilizando um atraso para garantir que o valor é capturado antes do envio
-            setTimeout(() => {
-                this.submit(); // Envia o formulário com o valor atualizado
-            }, 50); 
+   <script>
+        function formatarCPF(cpfField) {
+            // Remove tudo que não for dígito
+            let cpf = cpfField.value.replace(/\D/g, '');
             
-            event.preventDefault(); // Evita o envio padrão do formulário
-        });
+            // Adiciona a formatação
+            if (cpf.length <= 11) {
+                cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+                cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+                cpf = cpf.replace(/(\d{3})(\d{2})$/, '$1-$2');
+            }
+            
+            cpfField.value = cpf;
+        }
+
+        function removerMascaraCPF(event) {
+            // Previne o envio padrão do formulário
+            event.preventDefault();
+            
+            // Obtém o valor do campo CPF e remove a máscara
+            let cpfField = document.getElementById('cpf');
+            let cpf = cpfField.value.replace(/\D/g, ''); // Remove tudo que não é número
+
+            // Verifica se o CPF tem 11 dígitos
+            if (cpf.length === 11) {
+                // Atualiza o valor do campo com o CPF sem máscara
+                cpfField.value = cpf;
+
+                // Envia o formulário via htmx
+                htmx.ajax('POST', '/seu-endpoint', {
+                    target: '#resultado',
+                    swap: 'innerHTML',
+                    values: { cpf: cpf }
+                });
+            } else {
+                alert('Por favor, insira um CPF válido com 11 dígitos.');
+            }
+        }
     </script>
 {% endblock %}

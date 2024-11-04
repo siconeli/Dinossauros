@@ -8,7 +8,7 @@
     {% endif %}
     <form id="contrato-update-form" hx-post="{% url 'contrato-update' contrato.pk %}" hx-target="#contrato-form" hx-swap="innerHTML" novalidate>
         {% csrf_token %}
-        <div class="row mb-3">
+        <div class="row">
             <div class="col">
                 <label for="valor">Valor</label> 
                 <input type="text" id="valor" name="valor" class="form-control form-control-sm input-update-contrato" maxlength="17" disabled value="{{ contrato.valor }}" required>
@@ -44,7 +44,7 @@
             </div>
             <div class="col">
                 <label for="data_fim">Fim</label>
-                <input type="date" id="data_fim" name="data_fim" class="form-control form-control-sm input-update-contrato" disabled value="{{ contrato.data_fim|date:'Y-m-d' }}" required>
+                <input type="date" id="data_fim" name="data_fim" class="form-control form-control-sm input-update-contrato mb-3" disabled value="{{ contrato.data_fim|date:'Y-m-d' }}" required>
                 <div class="text-danger">
                     {% for error in form.data_fim.errors %}
                         {{ error }}
