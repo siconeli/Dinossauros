@@ -6,12 +6,17 @@
             Existe um ou mais campos inválidos no formulário!
         </div>
     {% endif %}
-    <form id="contrato-update-form" hx-post="{% url 'contrato-update' contrato.pk %}" hx-target="#contrato-form" hx-swap="innerHTML" onsubmit="return removerMaskMoney('valor');">
+    <form id="contrato-update-form" hx-post="{% url 'contrato-update' contrato.pk %}" hx-target="#contrato-form" hx-swap="innerHTML" novalidate>
         {% csrf_token %}
-        <div class="row">
+        <div class="row mb-3">
             <div class="col">
                 <label for="valor">Valor</label> 
                 <input type="text" id="valor" name="valor" class="form-control form-control-sm input-update-contrato" maxlength="17" disabled value="{{ contrato.valor }}" required>
+                <div class="text-danger">
+                    {% for error in form.valor.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
             </div>
             <div class="col">
                 <label for="periodo">Período</label>
@@ -22,22 +27,35 @@
                         </option>
                     {% endfor %}
                 </select>
+                <div class="text-danger">
+                    {% for error in form.periodo.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
             </div>
             <div class="col">
                 <label for="data_inicio">Início</label>
                 <input type="date" id="data_inicio" name="data_inicio" class="form-control form-control-sm input-update-contrato" disabled value="{{ contrato.data_inicio|date:'Y-m-d' }}" required>
+                <div class="text-danger">
+                    {% for error in form.data_inicio.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
             </div>
             <div class="col">
                 <label for="data_fim">Fim</label>
-                <input type="date" id="data_fim" name="data_fim" class="form-control form-control-sm input-update-contrato mb-3" disabled value="{{ contrato.data_fim|date:'Y-m-d' }}" required>
+                <input type="date" id="data_fim" name="data_fim" class="form-control form-control-sm input-update-contrato" disabled value="{{ contrato.data_fim|date:'Y-m-d' }}" required>
+                <div class="text-danger">
+                    {% for error in form.data_fim.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
             </div>
         </div>
 
         <button type="submit" class="btn" id="salvar_contrato" style="display: none;">Salvar</button>
         <button type="button" class="btn" onclick="removeDisabled('input-update-contrato', 'salvar_contrato')">Alterar</button>
     </form>
-
-
 {% endblock %}
 
 {% block scripts %}
@@ -49,29 +67,51 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            // Aplicar máscara no campo de valor
+        function applyMoneyMask() {
             $('#valor').maskMoney({
                 prefix: 'R$ ', // Prefixo do valor
-                allowNegative: false, // Permite valores negativos ou não
+                allowNegative: false, // Não permite valores negativos
                 thousands: '.', // Separador de milhares
                 decimal: ',', // Separador decimal
                 precision: 2, // Precisão (número de casas decimais)
-                affixesStay: true // Símbolos prefixo/sufixo permanecem mesmo depois de editar o campo
+                affixesStay: true // Os símbolos prefixo/sufixo permanecem após editar
             });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            applyMoneyMask(); // Aplica a máscara de dinheiro na inicialização
         });
 
         function removeDisabled(className, id) {
-            // Seleciona todos os elementos com a classe especificada e remove o atributo 'disabled'
             $('.' + className).removeAttr('disabled');
-
-            // Seleciona o elemento com o id especificado e altera o estilo de exibição
             $('#' + id).css('display', 'inline');
         }
 
-        $('form').on('submit', function() {
-            var valor = $('#valor').maskMoney('unmasked')[0];
-            $('#valor').val(valor);
+        // Aplica a máscara após a troca do conteúdo
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            setTimeout(applyMoneyMask, 50); // Aplica a máscara com um pequeno atraso
+        });
+
+        // Remover a máscara e garantir que o valor seja numérico no envio do formulário
+        $('#contrato-update-form').on('submit', function(event) {
+            let valorField = $('#valor'); // Seleciona o campo valor
+            let valorValue = valorField.val(); // Captura o valor atual
+            valorValue = valorValue.replace(/[^0-9]/g, ''); // Remove todos os caracteres não numéricos
+
+            if (valorValue.length > 0) {
+                valorValue = parseFloat(valorValue) / 100; // Divide por 100 para converter centavos em reais
+            } else {
+                valorValue = 0; // Define o valor como 0 se não for válido
+            }
+
+            valorField.val(valorValue); // Atualiza o valor do campo sem a máscara
+
+            // Envia o formulário após garantir que o valor está correto
+            setTimeout(() => {
+                this.submit(); // Envia o formulário com o valor atualizado
+            }, 50); 
+            
+            event.preventDefault(); // Evita o envio padrão do formulário
         });
     </script>
 {% endblock %}
