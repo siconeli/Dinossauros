@@ -50,7 +50,7 @@ class AlunoUpdate(LoginRequiredMixin, View):
             form = AlunoForm(request.POST, instance=aluno)
 
             if form.is_valid():
-                if form.cleaned_data.get('congelar'):
+                if form.cleaned_data.get('inativar'):
                     aluno = form.save(commit=False)
                     aluno.ativo = False
                     aluno.save()

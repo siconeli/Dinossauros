@@ -11,8 +11,8 @@
             {% csrf_token %}        
             <div class="row">
                 <div class="col mb-3">
-                    <input type="checkbox" id="congelar" name="congelar" disabled class="input-update-aluno" {% if not aluno.ativo %} checked {% endif %}>
-                    <label for="congelar">Congelar</label>
+                    <input type="checkbox" id="inativar" name="inativar" disabled class="input-update-aluno" {% if not aluno.ativo %} checked {% endif %}>
+                    <label for="inativar">Inativar</label>
                 </div>
             </div>
             <div class="row">
