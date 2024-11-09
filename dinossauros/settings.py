@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-uz3uai(*dh11vi*_0+23jxc2rlvlt&(2tp@8n$bs3(i&8$7smp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['85.31.231.165', 'dinossauros.shop', '127.0.0.1']
+ALLOWED_HOSTS = ['85.31.231.165']
 
 # Configuração de origens confiáveis, para funcionamento do CSRF_TOKEN
 # CSRF_TRUSTED_ORIGINS = ['https://dinossauros.shop'] 
