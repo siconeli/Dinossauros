@@ -26,13 +26,12 @@ SECRET_KEY = 'django-insecure-uz3uai(*dh11vi*_0+23jxc2rlvlt&(2tp@8n$bs3(i&8$7smp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['85.31.231.165']
+ALLOWED_HOSTS = ['85.31.231.165', 'dinossauros.shop']
 
 # Configuração de origens confiáveis, para funcionamento do CSRF_TOKEN
-# CSRF_TRUSTED_ORIGINS = ['https://dinossauros.shop'] 
+CSRF_TRUSTED_ORIGINS = ['https://dinossauros.shop'] 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
