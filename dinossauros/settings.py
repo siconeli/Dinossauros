@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['85.31.231.165', 'dinossauros.shop']
 CSRF_TRUSTED_ORIGINS = ['https://dinossauros.shop'] 
 
 # Application definition
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
